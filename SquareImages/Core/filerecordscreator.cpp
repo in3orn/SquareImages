@@ -12,14 +12,9 @@ FileRecordsCreator::FileRecordsCreator(ImageRecordsModel &imageRecordsModel, Mai
 FileRecord FileRecordsCreator::replaceFormat(const FileRecord &fileRecord) const {
     FileRecord result = fileRecord;
 
-    //TODO should be done by FileRecordFormatReplacer??
-    switch(_fileSettingsModel.getForcedFormat()) {
-    case MainSettingsModel::ForcedFormat::ForceJpg:
-        result.outputFileName = StringUtils::replaceFileExtension(result.outputFileName, "jpg");
-        break;
-    case MainSettingsModel::ForcedFormat::ForcePng:
-        result.outputFileName = StringUtils::replaceFileExtension(result.outputFileName, "png");
-        break;
+    QString ext = _fileSettingsModel.getForcedFormatExtension();
+    if(!ext.isEmpty() && !result.outputFileName.endsWith(ext)) {
+        result.outputFileName = StringUtils::replaceFileExtension(result.outputFileName, ext);
     }
 
     return result;

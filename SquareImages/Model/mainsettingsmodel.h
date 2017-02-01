@@ -60,6 +60,7 @@ public:
     bool isReplaceExisting() const;
 
     ForcedFormat getForcedFormat() const;
+    QString getForcedFormatExtension() const;
 
 signals:
     void conversionTypeChanged(int conversionType);

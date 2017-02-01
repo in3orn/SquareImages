@@ -83,6 +83,19 @@ MainSettingsModel::ForcedFormat MainSettingsModel::getForcedFormat() const {
     return _forcedFormat;
 }
 
+QString MainSettingsModel::getForcedFormatExtension() const
+{
+    switch(_forcedFormat)
+    {
+    case MainSettingsModel::ForcePng:
+        return "png";
+    case MainSettingsModel::ForceJpg:
+        return "jpg";
+    default:
+        return "";
+    }
+}
+
 
 
 void MainSettingsModel::setConversionType(int conversionType) {

@@ -29,6 +29,7 @@ void SingleFileRecordCreator::run() {
         fileRecord.inputFileName = sourceFile;
         fileRecord.outputFilePath = _fileSettingsModel.getOutputPath();
         fileRecord.outputFileName = StringUtils::normalize(fileRecord.inputFileName);
+
         fileRecord = replaceFormat(fileRecord);
     } else {
         fileRecord.setError(tr("Nie można odnaleźć pliku: <b>%0</b> w ścieżce: <br><b>%2</b>").
