@@ -21,6 +21,8 @@ void SingleFileRecordCreator::run() {
     QString sourcePath = source.left(index);
     QString sourceFile = source.mid(index+1);
 
+    fileRecord.name = StringUtils::removeFileExtension(sourceFile);
+
     QDir directory(sourcePath);
     if(directory.exists(sourceFile)) {
         fileRecord.inputFilePath = sourcePath;
@@ -29,7 +31,8 @@ void SingleFileRecordCreator::run() {
         fileRecord.outputFileName = StringUtils::normalize(fileRecord.inputFileName);
         fileRecord = replaceFormat(fileRecord);
     } else {
-        fileRecord.setError(tr("Nie można odnaleźć pliku: %0.").arg(source));
+        fileRecord.setError(tr("Nie można odnaleźć pliku: <b>%0</b> w ścieżce: <br><b>%2</b>").
+                            arg(sourceFile, sourcePath));
     }
 
     _imageRecordsModel.addRecord(fileRecord);

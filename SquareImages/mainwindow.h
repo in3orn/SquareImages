@@ -33,10 +33,6 @@ public:
 public slots:
 
 private:
-    void initModels();
-    void initConversionTypesModel();
-    void initForcedFormatsModel();
-
     void initWidgets();
 
     void initControllers();
@@ -48,9 +44,6 @@ private:
 private:
     Ui::MainWindow *ui;
 
-    QStringListModel *_conversionTypesModel;
-    QStringListModel *_forcedFormatsModel;
-
     ConversionModel _conversionModel;
     ConversionSettingsModel _conversionSettingsModel;
     MainSettingsModel _mainSettingsModel;
@@ -60,8 +53,6 @@ private:
     ConversionSettingsController _conversionSettingsController;
     MainSettingsController *_mainSettingsController;
     ImageRecordsController *_imageRecordsController;
-
-    ImagesConverter *_imagesConverter;
 };
 
 #endif // MAINWINDOW_H

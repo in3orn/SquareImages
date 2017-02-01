@@ -44,7 +44,7 @@ void ProductFileRecordDecryptorTest::decryptFileRecord_data() {
             << false
             << "" << ""
             << "" << ""
-            << "Brand name is empty.";
+            << "Nazwa <b>marki</b> jest <b>pusta</b>.";
 
     QTest::newRow("Product: Fridge 1, empty")
             << "E:/QtApps/SquareImages/TestData/Input/ProductFileRecordDecryptor"
@@ -53,7 +53,7 @@ void ProductFileRecordDecryptorTest::decryptFileRecord_data() {
             << false
             << "" << ""
             << "" << ""
-            << "Brand name is empty.";
+            << "Nazwa <b>marki</b> jest <b>pusta</b>.";
 
     QTest::newRow("Product: Invalid, Panasonic")
             << "E:/QtApps/SquareImages/TestData/Input/ProductFileRecordDecryptor"
@@ -62,7 +62,7 @@ void ProductFileRecordDecryptorTest::decryptFileRecord_data() {
             << false
             << "" << ""
             << "" << ""
-            << "Nie znaleziono zdjęcia: Invalid, w folderze: E:/QtApps/SquareImages/TestData/Input/ProductFileRecordDecryptor.";
+            << "Nie znaleziono zdjęcia: <b>Invalid</b>, w folderze: <br><b>E:/QtApps/SquareImages/TestData/Input/ProductFileRecordDecryptor</b>.";
 
     QTest::newRow("Product: Fridge 1, Panasonic")
             << "E:/QtApps/SquareImages/TestData/Input/ProductFileRecordDecryptor"
@@ -128,7 +128,7 @@ void ProductFileRecordDecryptorTest::decryptFileRecord_data() {
             << ""
             << ""
             << ""
-            << "Nie znaleziono zdjęcia: Fridge 4, w folderze: E:/QtApps/SquareImages/TestData/Input/ProductFileRecordDecryptor.";
+            << "Nie znaleziono zdjęcia: <b>Fridge 4</b>, w folderze: <br><b>E:/QtApps/SquareImages/TestData/Input/ProductFileRecordDecryptor</b>.";
 
     QTest::newRow("Product: Fridge 4, Panasonic")
             << "E:/QtApps/SquareImages/TestData/Input/ProductFileRecordDecryptor"
@@ -154,12 +154,13 @@ void ProductFileRecordDecryptorTest::decryptFileRecord() {
     QFETCH(QString, outputFileName);
     QFETCH(QString, error);
 
-    MainSettingsModel model;
-    model.setSourcePath(sourcePath);
-    model.setOutputPath(outputPath);
-    model.setCheckSubdirs(checkSubdirs);
+    ImageRecordsModel imageRecordsModel;
+    MainSettingsModel fileSettingsModel;
+    fileSettingsModel.setSourcePath(sourcePath);
+    fileSettingsModel.setOutputPath(outputPath);
+    fileSettingsModel.setCheckSubdirs(checkSubdirs);
 
-    ProductFileRecordDecryptor decryptor(model);
+    ProductFileRecordDecryptor decryptor(imageRecordsModel, fileSettingsModel);
 
     FileRecord result = decryptor.decryptFileRecord(fieldsString);
 

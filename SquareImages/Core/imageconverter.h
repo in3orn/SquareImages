@@ -3,13 +3,16 @@
 
 #include <QImage>
 
+#include "Model/mainsettingsmodel.h"
+
+#include "filerecord.h"
+
 class ImageConverter
 {
 public:
     virtual ~ImageConverter() {}
 
-public:
-    virtual QImage convert(const QImage &image) const = 0;
+    virtual QImage convert(const QImage &image, const FileRecord &fileRecord) = 0;
 };
 
 #endif // IMAGECONVERTER_H

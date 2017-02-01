@@ -12,10 +12,17 @@ SOURCES += \
     $$PWD/simplefilerecorddecryptor.cpp \
     $$PWD/imagesconverter.cpp \
     $$PWD/filerecordsdecryptor.cpp \
-    $$PWD/colorutils.cpp \
     $$PWD/filerecordscreator.cpp \
     $$PWD/singlefilerecordcreator.cpp \
-    $$PWD/directoryfilerecordscreator.cpp
+    $$PWD/directoryfilerecordscreator.cpp \
+    $$PWD/cropimageconverter.cpp \
+    $$PWD/textimageconverter.cpp \
+    $$PWD/toptextimageconverter.cpp \
+    $$PWD/imageutils.cpp \
+    $$PWD/painttextsettings.cpp \
+    $$PWD/midtextimageconverter.cpp \
+    $$PWD/bottomtextimageconverter.cpp \
+    $$PWD/topproductfilerecorddecryptor.cpp
 
 HEADERS += \
     $$PWD/imageconverter.h \
@@ -29,7 +36,14 @@ HEADERS += \
     $$PWD/filerecorddecryptor.h \
     $$PWD/imagesconverter.h \
     $$PWD/filerecordsdecryptor.h \
-    $$PWD/colorutils.h \
     $$PWD/filerecordscreator.h \
     $$PWD/singlefilerecordcreator.h \
-    $$PWD/directoryfilerecordscreator.h
+    $$PWD/directoryfilerecordscreator.h \
+    $$PWD/cropimageconverter.h \
+    $$PWD/textimageconverter.h \
+    $$PWD/toptextimageconverter.h \
+    $$PWD/imageutils.h \
+    $$PWD/painttextsettings.h \
+    $$PWD/midtextimageconverter.h \
+    $$PWD/bottomtextimageconverter.h \
+    $$PWD/topproductfilerecorddecryptor.h

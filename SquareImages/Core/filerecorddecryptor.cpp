@@ -43,6 +43,7 @@ FileRecord FileRecordDecryptor::prepareFileRecord(const QStringList &fields) con
     if(fileName.isEmpty())
         return fileRecord;
 
+    fileRecord.name = fileName;
     fileRecord.inputFilePath = _fileRecordSettingsModel.getSourcePath();
     fileRecord.inputFileName = fileName;
 
@@ -59,8 +60,11 @@ FileRecord FileRecordDecryptor::getVerifiedFileRecord(const FileRecord &fileReco
     result = replaceFormat(result);
 
     if(result.inputFileName.isEmpty()) {
-        result.setError(tr("Nie znaleziono zdjęcia: %0, w folderze: %1.").arg(fileRecord.inputFileName, fileRecord.inputFilePath));
+        result.setError(tr("Nie znaleziono zdjęcia: <b>%0</b>, w folderze: <br><b>%1</b>.").
+                        arg(StringUtils::removeFileExtension(fileRecord.inputFileName), fileRecord.inputFilePath));
     }
+
+//    result.name = StringUtils::removeFileExtension(fileRecord.inputFileName);
 
     return result;
 }
@@ -77,7 +81,7 @@ FileRecord FileRecordDecryptor::extendFileRecord(const FileRecord &fileRecord, c
         result.outputFilePath += outputFilePathExtension;
 
     } else if(result.getError().isEmpty()) {
-        result.setError(tr("Wystąpił nieokreślony błąd przy szukaniu obrazka."));
+        result.setError(tr("Wystąpił <b>nieokreślony błąd</b> przy szukaniu obrazka."));
     }
 
     return result;

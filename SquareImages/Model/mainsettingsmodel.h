@@ -17,22 +17,34 @@ class MainSettingsModel : public QObject
     Q_PROPERTY(bool checkSubdirs READ isCheckSubdirs WRITE setCheckSubdirs NOTIFY checkSubdirsChanged)
     Q_PROPERTY(bool replaceExisting READ isReplaceExisting WRITE setReplaceExisting NOTIFY replaceExistingChanged)
 
-    Q_PROPERTY(int forcedFormat READ getForcedFormat WRITE setForcedFormat NOTIFY forcedFormatChanged)
+    Q_PROPERTY(ForcedFormat forcedFormat READ getForcedFormat WRITE setForcedFormat NOTIFY forcedFormatChanged)
 
 public:
     enum ConversionType {
-        SingleImage,
-        DirectoryImages,
-        SimpleImageList,
-        BrandImageList,
-        ProductImageList
+        ConvertSingleImage,
+        ConvertDirectoryImages,
+        ConvertSimpleImages,
+        ConvertBrandImages,
+        ConvertProductImages,
+        ConvertTopProductImages
     };
 
+    static QStringList convertsionTypeNames;
+
+private:
+    static QStringList initConvertsionTypeNames();
+
+public:
     enum ForcedFormat {
-        None,
-        PNG,
-        JPG
+        ForceNone,
+        ForcePng,
+        ForceJpg
     };
+
+    static QStringList forcedFormatNames;
+
+private:
+    static QStringList initForcedFormatNames();
 
 public:
     explicit MainSettingsModel(QObject *parent = 0);
@@ -47,7 +59,7 @@ public:
     bool isCheckSubdirs() const;
     bool isReplaceExisting() const;
 
-    int getForcedFormat() const;
+    ForcedFormat getForcedFormat() const;
 
 signals:
     void conversionTypeChanged(int conversionType);
@@ -60,6 +72,7 @@ signals:
     void checkSubdirsChanged(bool checkSubdirs);
     void replaceExistingChanged(bool replaceExisting);
 
+    void forcedFormatChanged(ForcedFormat forcedFormat);
     void forcedFormatChanged(int forcedFormat);
 
 public slots:
@@ -73,6 +86,7 @@ public slots:
     void setCheckSubdirs(bool checkSubdirs);
     void setReplaceExisting(bool replaceExisting);
 
+    void setForcedFormat(ForcedFormat forcedFormat);
     void setForcedFormat(int forcedFormat);
 
 private:
@@ -88,5 +102,7 @@ private:
 
     ForcedFormat _forcedFormat;
 };
+
+Q_DECLARE_METATYPE(MainSettingsModel::ForcedFormat)
 
 #endif // MAINSETTINGSMODEL_H

@@ -2,6 +2,8 @@
 
 #include <QHeaderView>
 
+#include "Delegate/imagerecorddelegate.h"
+
 ImageRecordsController::ImageRecordsController(ImageRecordsModel &imageRecordsModel, QObject *parent) : QObject(parent),
     _imageRecordsModel(imageRecordsModel)
 {
@@ -11,10 +13,12 @@ ImageRecordsController::ImageRecordsController(ImageRecordsModel &imageRecordsMo
 void ImageRecordsController::connectImageRecords(QTableView *view) {
     view->setModel(&_imageRecordsModel);
 
-    view->setColumnWidth(ImageRecordsModel::Index, 40);
+    ImageRecordDelegate *delegate = new ImageRecordDelegate(view);
+    view->setItemDelegate(delegate);
 
-    for (int i = 1; i < view->horizontalHeader()->count(); ++i)
-    {
-        view->horizontalHeader()->setSectionResizeMode(i, QHeaderView::Stretch);
-    }
+    view->setColumnWidth(ImageRecordsModel::Index, 25);
+    view->setColumnWidth(ImageRecordsModel::Name, 150);
+    view->setColumnWidth(ImageRecordsModel::State, 150);
+
+    view->horizontalHeader()->setSectionResizeMode(ImageRecordsModel::Error, QHeaderView::Stretch);
 }

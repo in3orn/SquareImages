@@ -1,6 +1,17 @@
 #include "conversionsettingscontroller.h"
 
 #include <QColorDialog>
+#include <QFontDialog>
+
+#include <QComboBox>
+#include <QSpinBox>
+#include <QSlider>
+#include <QGraphicsView>
+#include <QPushButton>
+#include <QCheckBox>
+#include <QLineEdit>
+
+#include <QFont>
 
 ConversionSettingsController::ConversionSettingsController(QObject *parent) : QObject(parent),
 
@@ -9,6 +20,8 @@ ConversionSettingsController::ConversionSettingsController(QObject *parent) : QO
 {
 
 }
+
+
 
 ConversionModel *ConversionSettingsController::getConversionModel() const {
     return _conversionModel;
@@ -34,10 +47,51 @@ void ConversionSettingsController::setConversionSettingsModel(ConversionSettings
 
 
 
+void ConversionSettingsController::connectConverterTypeComboBox(QComboBox *widget) {
+    _converterTypeComboBox = widget;
+    _converterTypeComboBox->setCurrentIndex(_conversionSettingsModel->getConverterType());
+    refreshConverterTypeComboBox();
+
+    connect(widget, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+            _conversionSettingsModel, static_cast<void(ConversionSettingsModel::*)(int)>(&ConversionSettingsModel::setConverterType));
+
+    connect(_conversionSettingsModel, static_cast<void(ConversionSettingsModel::*)(int)>(&ConversionSettingsModel::converterTypeChanged),
+            widget, &QComboBox::setCurrentIndex);
+
+    connect(widget, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+            this, &ConversionSettingsController::refreshWidgets);
+}
+
+
+void ConversionSettingsController::connectHorizontalAlignmentComboBox(QComboBox *widget) {
+    _horizontalAlignmentComboBox = widget;
+    _horizontalAlignmentComboBox->setCurrentIndex(_conversionSettingsModel->getHorizontalAlignment());
+    refreshHorizontalAlignmentComboBox();
+
+    connect(widget, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+            _conversionSettingsModel, static_cast<void(ConversionSettingsModel::*)(int)>(&ConversionSettingsModel::setHorizontalAlignment));
+
+    connect(_conversionSettingsModel, static_cast<void(ConversionSettingsModel::*)(int)>(&ConversionSettingsModel::horizontalAlignmentChanged),
+            widget, &QComboBox::setCurrentIndex);
+}
+
+void ConversionSettingsController::connectVerticalAlignmentComboBox(QComboBox *widget) {
+    _verticalAlignmentComboBox = widget;
+    _verticalAlignmentComboBox->setCurrentIndex(_conversionSettingsModel->getVerticalAlignment());
+    refreshVerticalAlignmentComboBox();
+
+    connect(widget, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+            _conversionSettingsModel, static_cast<void(ConversionSettingsModel::*)(int)>(&ConversionSettingsModel::setVerticalAlignment));
+
+    connect(_conversionSettingsModel, static_cast<void(ConversionSettingsModel::*)(int)>(&ConversionSettingsModel::verticalAlignmentChanged),
+            widget, &QComboBox::setCurrentIndex);
+}
+
+
 void ConversionSettingsController::connectXRatioSpinBox(QSpinBox *widget) {
     _xRatioSpinBox = widget;
     _xRatioSpinBox->setValue(_conversionSettingsModel->getXRatio());
-    refreshXRadioSpinBox();
+    refreshXRatioSpinBox();
 
     connect(widget, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), _conversionSettingsModel, &ConversionSettingsModel::setXRatio);
     connect(_conversionSettingsModel, &ConversionSettingsModel::xRatioChanged, widget, &QSpinBox::setValue);
@@ -46,11 +100,12 @@ void ConversionSettingsController::connectXRatioSpinBox(QSpinBox *widget) {
 void ConversionSettingsController::connectYRatioSpinBox(QSpinBox *widget) {
     _yRatioSpinBox = widget;
     _yRatioSpinBox->setValue(_conversionSettingsModel->getYRatio());
-    refreshYRadioSpinBox();
+    refreshYRatioSpinBox();
 
     connect(widget, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), _conversionSettingsModel, &ConversionSettingsModel::setYRatio);
     connect(_conversionSettingsModel, &ConversionSettingsModel::yRatioChanged, widget, &QSpinBox::setValue);
 }
+
 
 void ConversionSettingsController::connectMarginSpinBox(QSpinBox *widget) {
     _marginSpinBox = widget;
@@ -70,6 +125,26 @@ void ConversionSettingsController::connectMarginSlider(QSlider *widget) {
     connect(_conversionSettingsModel, &ConversionSettingsModel::marginChanged, widget, &QSlider::setValue);
 }
 
+
+void ConversionSettingsController::connectTextSizeSpinBox(QSpinBox *widget) {
+    _textSizeSpinBox = widget;
+    _textSizeSpinBox->setValue(_conversionSettingsModel->getTextSize());
+    refreshTextSizeSpinBox();
+
+    connect(widget, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), _conversionSettingsModel, &ConversionSettingsModel::setTextSize);
+    connect(_conversionSettingsModel, &ConversionSettingsModel::textSizeChanged, widget, &QSpinBox::setValue);
+}
+
+void ConversionSettingsController::connectTextSizeSlider(QSlider *widget) {
+    _textSizeSlider = widget;
+    _textSizeSlider->setValue(_conversionSettingsModel->getTextSize());
+    refreshTextSizeSlider();
+
+    connect(widget, &QSlider::valueChanged, _conversionSettingsModel, &ConversionSettingsModel::setTextSize);
+    connect(_conversionSettingsModel, &ConversionSettingsModel::textSizeChanged, widget, &QSlider::setValue);
+}
+
+
 void ConversionSettingsController::connectAlphaToleranceSpinBox(QSpinBox *widget) {
     _alphaToleranceSpinBox = widget;
     _alphaToleranceSpinBox->setValue(_conversionSettingsModel->getAlphaTolerance());
@@ -87,6 +162,7 @@ void ConversionSettingsController::connectAlphaToleranceSlider(QSlider *widget) 
     connect(widget, &QSlider::valueChanged, _conversionSettingsModel, &ConversionSettingsModel::setAlphaTolerance);
     connect(_conversionSettingsModel, &ConversionSettingsModel::alphaToleranceChanged, widget, &QSlider::setValue);
 }
+
 
 void ConversionSettingsController::connectColorToleranceSpinBox(QSpinBox *widget) {
     _colorToleranceSpinBox = widget;
@@ -106,19 +182,6 @@ void ConversionSettingsController::connectColorToleranceSlider(QSlider *widget) 
     connect(_conversionSettingsModel, &ConversionSettingsModel::colorToleranceChanged, widget, &QSlider::setValue);
 }
 
-void ConversionSettingsController::connectColorView(QGraphicsView *widget) {
-    _colorView = widget;
-    setColorViewColor(_conversionSettingsModel->getColor());
-
-    connect(_conversionSettingsModel, &ConversionSettingsModel::colorChanged, this, &ConversionSettingsController::setColorViewColor);
-}
-
-void ConversionSettingsController::connectColorButton(QPushButton *widget) {
-    _colorButton = widget;
-    refreshColorButton();
-
-    connect(widget, &QPushButton::clicked, this, &ConversionSettingsController::selectColor);
-}
 
 void ConversionSettingsController::connectClearColorCheckBox(QCheckBox *widget) {
     _clearColorCheckBox = widget;
@@ -130,31 +193,113 @@ void ConversionSettingsController::connectClearColorCheckBox(QCheckBox *widget) 
 }
 
 
+void ConversionSettingsController::connectBackgroundColorView(QGraphicsView *widget) {
+    _backgroundColorView = widget;
+    setBackgroundColorViewColor(_conversionSettingsModel->getBackgroundColor());
+
+    connect(_conversionSettingsModel, &ConversionSettingsModel::backgroundColorChanged, this, &ConversionSettingsController::setBackgroundColorViewColor);
+}
+
+void ConversionSettingsController::connectBackgroundColorButton(QPushButton *widget) {
+    _backgroundColorButton = widget;
+    refreshBackgroundColorButton();
+
+    connect(widget, &QPushButton::clicked, this, &ConversionSettingsController::selectBackgroundColor);
+}
 
 
-void ConversionSettingsController::selectColor() {
+void ConversionSettingsController::connectTextColorView(QGraphicsView *widget) {
+    _textColorView = widget;
+    setTextColorViewColor(_conversionSettingsModel->getTextColor());
+
+    connect(_conversionSettingsModel, &ConversionSettingsModel::textColorChanged, this, &ConversionSettingsController::setTextColorViewColor);
+}
+
+void ConversionSettingsController::connectTextColorButton(QPushButton *widget) {
+    _textColorButton = widget;
+    refreshTextColorButton();
+
+    connect(widget, &QPushButton::clicked, this, &ConversionSettingsController::selectTextColor);
+}
+
+void ConversionSettingsController::connectTextFontLineEdit(QLineEdit *widget) {
+    _textFontLineEdit = widget;
+    _textFontLineEdit->setEnabled(false);
+    setTextFontLineEditFont(_conversionSettingsModel->getTextFont());
+
+    connect(_conversionSettingsModel, &ConversionSettingsModel::textFontChanged, this, &ConversionSettingsController::setTextFontLineEditFont);
+}
+
+void ConversionSettingsController::connectTextFontButton(QPushButton *widget) {
+    _textFontButton = widget;
+    refreshTextFontButton();
+
+    connect(widget, &QPushButton::clicked, this, &ConversionSettingsController::selectTextFont);
+}
+
+
+
+
+void ConversionSettingsController::selectBackgroundColor() {
     QColorDialog dialog;
 
     int result = dialog.exec();
 
     if(result) {
-        _conversionSettingsModel->setColor(dialog.selectedColor());
+        _conversionSettingsModel->setBackgroundColor(dialog.selectedColor());
     }
 }
 
-void ConversionSettingsController::setColorViewColor(const QColor &color) {
-    _colorView->setStyleSheet("QGraphicsView { background-color: " + color.name() + "; }");
+void ConversionSettingsController::setBackgroundColorViewColor(const QColor &color) {
+    _backgroundColorView->setStyleSheet("QGraphicsView { background-color: " + color.name() + "; }");
 }
 
+
+void ConversionSettingsController::selectTextColor() {
+    QColorDialog dialog;
+
+    int result = dialog.exec();
+
+    if(result) {
+        _conversionSettingsModel->setTextColor(dialog.selectedColor());
+    }
+}
+
+void ConversionSettingsController::setTextColorViewColor(const QColor &color) {
+    _textColorView->setStyleSheet("QGraphicsView { background-color: " + color.name() + "; }");
+}
+
+void ConversionSettingsController::selectTextFont() {
+    QFontDialog dialog;
+
+    int result = dialog.exec();
+
+    if(result) {
+        _conversionSettingsModel->setTextFont(dialog.selectedFont());
+    }
+}
+
+void ConversionSettingsController::setTextFontLineEditFont(const QFont &textFont) {
+    _textFontLineEdit->setFont(textFont);
+    _textFontLineEdit->setText(textFont.family());
+}
 
 
 
 void ConversionSettingsController::refreshWidgets() {
-    refreshXRadioSpinBox();
-    refreshYRadioSpinBox();
+    refreshConverterTypeComboBox();
+
+    refreshHorizontalAlignmentComboBox();
+    refreshVerticalAlignmentComboBox();
+
+    refreshXRatioSpinBox();
+    refreshYRatioSpinBox();
 
     refreshMarginSpinBox();
     refreshMarginSlider();
+
+    refreshTextSizeSpinBox();
+    refreshTextSizeSlider();
 
     refreshAlphaToleranceSpinBox();
     refreshAlphaToleranceSlider();
@@ -162,27 +307,65 @@ void ConversionSettingsController::refreshWidgets() {
     refreshColorToleranceSpinBox();
     refreshColorToleranceSlider();
 
-    refreshColorView();
-    refreshColorButton();
-
     refreshClearColorCheckBox();
+
+    refreshBackgroundColorView();
+    refreshBackgroundColorButton();
+
+    refreshTextColorView();
+    refreshTextColorButton();
+
+    refreshTextFontLineEdit();
+    refreshTextFontButton();
 }
 
-void ConversionSettingsController::refreshXRadioSpinBox() {
-    _xRatioSpinBox->setEnabled(!_conversionModel->isRunning());
+void ConversionSettingsController::refreshConverterTypeComboBox() {
+    _converterTypeComboBox->setEnabled(!_conversionModel->isRunning());
 }
 
-void ConversionSettingsController::refreshYRadioSpinBox() {
-    _yRatioSpinBox->setEnabled(!_conversionModel->isRunning());
+void ConversionSettingsController::refreshHorizontalAlignmentComboBox() {
+    _horizontalAlignmentComboBox->setEnabled(!_conversionModel->isRunning() &&
+                                             _conversionSettingsModel->getConverterType() == ConversionSettingsModel::CropImageConverter);
 }
+
+void ConversionSettingsController::refreshVerticalAlignmentComboBox() {
+    _verticalAlignmentComboBox->setEnabled(!_conversionModel->isRunning() &&
+                                           _conversionSettingsModel->getConverterType() != ConversionSettingsModel::SquareImageConverter);
+}
+
+
+void ConversionSettingsController::refreshXRatioSpinBox() {
+    _xRatioSpinBox->setEnabled(!_conversionModel->isRunning() &&
+                               _conversionSettingsModel->getConverterType() != ConversionSettingsModel::TextImageConverter);
+}
+
+void ConversionSettingsController::refreshYRatioSpinBox() {
+    _yRatioSpinBox->setEnabled(!_conversionModel->isRunning() &&
+                               _conversionSettingsModel->getConverterType() != ConversionSettingsModel::TextImageConverter);
+}
+
 
 void ConversionSettingsController::refreshMarginSpinBox() {
-    _marginSpinBox->setEnabled(!_conversionModel->isRunning());
+    _marginSpinBox->setEnabled(!_conversionModel->isRunning() &&
+                               _conversionSettingsModel->getConverterType() == ConversionSettingsModel::SquareImageConverter);
 }
 
 void ConversionSettingsController::refreshMarginSlider() {
-    _marginSlider->setEnabled(!_conversionModel->isRunning());
+    _marginSlider->setEnabled(!_conversionModel->isRunning() &&
+                              _conversionSettingsModel->getConverterType() == ConversionSettingsModel::SquareImageConverter);
 }
+
+
+void ConversionSettingsController::refreshTextSizeSpinBox() {
+    _textSizeSpinBox->setEnabled(!_conversionModel->isRunning() &&
+                                 _conversionSettingsModel->getConverterType() == ConversionSettingsModel::TextImageConverter);
+}
+
+void ConversionSettingsController::refreshTextSizeSlider() {
+    _textSizeSlider->setEnabled(!_conversionModel->isRunning() &&
+                                _conversionSettingsModel->getConverterType() == ConversionSettingsModel::TextImageConverter);
+}
+
 
 void ConversionSettingsController::refreshAlphaToleranceSpinBox() {
     _alphaToleranceSpinBox->setEnabled(!_conversionModel->isRunning());
@@ -192,6 +375,7 @@ void ConversionSettingsController::refreshAlphaToleranceSlider() {
     _alphaToleranceSlider->setEnabled(!_conversionModel->isRunning());
 }
 
+
 void ConversionSettingsController::refreshColorToleranceSpinBox() {
     _colorToleranceSpinBox->setEnabled(!_conversionModel->isRunning());
 }
@@ -200,14 +384,33 @@ void ConversionSettingsController::refreshColorToleranceSlider() {
     _colorToleranceSlider->setEnabled(!_conversionModel->isRunning());
 }
 
-void ConversionSettingsController::refreshColorView() {
-    _colorView->setEnabled(!_conversionModel->isRunning());
-}
-
-void ConversionSettingsController::refreshColorButton() {
-    _colorButton->setEnabled(!_conversionModel->isRunning());
-}
 
 void ConversionSettingsController::refreshClearColorCheckBox() {
     _clearColorCheckBox->setEnabled(!_conversionModel->isRunning());
+}
+
+
+void ConversionSettingsController::refreshBackgroundColorView() {
+}
+
+void ConversionSettingsController::refreshBackgroundColorButton() {
+    _backgroundColorButton->setEnabled(!_conversionModel->isRunning());
+}
+
+
+void ConversionSettingsController::refreshTextColorView() {
+}
+
+void ConversionSettingsController::refreshTextColorButton() {
+    _textColorButton->setEnabled(!_conversionModel->isRunning() &&
+                                 _conversionSettingsModel->getConverterType() == ConversionSettingsModel::TextImageConverter);
+}
+
+
+void ConversionSettingsController::refreshTextFontLineEdit() {
+}
+
+void ConversionSettingsController::refreshTextFontButton() {
+    _textFontButton->setEnabled(!_conversionModel->isRunning() &&
+                                _conversionSettingsModel->getConverterType() == ConversionSettingsModel::TextImageConverter);
 }

@@ -8,6 +8,7 @@
 #include "Core/stringutils.h"
 
 #include "Core/Factory/filerecordscreatorfactory.h"
+#include "Core/Factory/imageconverterfactory.h"
 
 ConversionController::ConversionController(QObject *parent) : QThread(parent),
     _conversionModel(Q_NULLPTR),
@@ -147,6 +148,13 @@ void ConversionController::start() {
 
     FileRecordsCreator *fileRecordsCreator = FileRecordsCreatorFactory::getInstance().create(*_imageRecordsModel, *_mainSettingsModel);
     connectFileRecordsCreator(fileRecordsCreator);
+
+    ImageConverter *imageConverter = ImageConverterFactory::getInstance().create(*_conversionSettingsModel, *_mainSettingsModel);
+
+    ImagesConverter *imagesConverter = new ImagesConverter(*_imageRecordsModel, *_mainSettingsModel);
+    imagesConverter->setImageConverter(imageConverter);
+
+    connectImagesConverter(imagesConverter);
 
     _fileRecordsCreator->start();
 }

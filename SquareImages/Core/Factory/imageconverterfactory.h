@@ -12,7 +12,9 @@ public:
     static ImageConverterFactory &getInstance();
 
 public:
-    ImageConverter *createSquareImageConverter(ConversionSettingsModel &conversionSettingsModel, MainSettingsModel &fileSettingsModel) const;
+    ImageConverter *create(ConversionSettingsModel &conversionSettingsModel, MainSettingsModel &fileSettingsModel) const;
+
+    ImageConverter *createTextImageConverter(ConversionSettingsModel &conversionSettingsModel, MainSettingsModel &fileSettingsModel) const;
 };
 
 #endif // IMAGECONVERTERFACTORY_H

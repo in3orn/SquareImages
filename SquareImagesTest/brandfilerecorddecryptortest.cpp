@@ -39,7 +39,7 @@ void BrandFileRecordDecryptorTest::decryptFileRecord_data() {
             << ""
             << ""
             << ""
-            << "Nie znaleziono zdjęcia: Invalid, w folderze: E:/QtApps/SquareImages/TestData/Input/BrandFileRecordDecryptor.";
+            << "Nie znaleziono zdjęcia: <b>Invalid</b>, w folderze: <br><b>E:/QtApps/SquareImages/TestData/Input/BrandFileRecordDecryptor</b>.";
 
     QTest::newRow("Brand: 3M")
             << "E:/QtApps/SquareImages/TestData/Input/BrandFileRecordDecryptor"
@@ -83,7 +83,7 @@ void BrandFileRecordDecryptorTest::decryptFileRecord_data() {
             << ""
             << ""
             << ""
-            << "Nie znaleziono zdjęcia: Solis, w folderze: E:/QtApps/SquareImages/TestData/Input/BrandFileRecordDecryptor.";
+            << "Nie znaleziono zdjęcia: <b>Solis</b>, w folderze: <br><b>E:/QtApps/SquareImages/TestData/Input/BrandFileRecordDecryptor</b>.";
 
     QTest::newRow("Brand: Solis")
             << "E:/QtApps/SquareImages/TestData/Input/BrandFileRecordDecryptor"
@@ -109,12 +109,14 @@ void BrandFileRecordDecryptorTest::decryptFileRecord() {
     QFETCH(QString, outputFileName);
     QFETCH(QString, error);
 
-    MainSettingsModel model;
-    model.setSourcePath(sourcePath);
-    model.setOutputPath(outputPath);
-    model.setCheckSubdirs(checkSubdirs);
 
-    BrandFileRecordDecryptor decryptor(model);
+    ImageRecordsModel imageRecordsModel;
+    MainSettingsModel fileSettingsModel;
+    fileSettingsModel.setSourcePath(sourcePath);
+    fileSettingsModel.setOutputPath(outputPath);
+    fileSettingsModel.setCheckSubdirs(checkSubdirs);
+
+    BrandFileRecordDecryptor decryptor(imageRecordsModel, fileSettingsModel);
 
     FileRecord result = decryptor.decryptFileRecord(fieldsString);
 

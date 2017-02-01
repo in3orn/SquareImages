@@ -1,8 +1,8 @@
 SOURCES += \
-    ..\SquareImages\mainwindow.cpp
+    $$PWD/mainwindow.cpp
 
 HEADERS += \
-    ..\SquareImages\mainwindow.h
+    $$PWD/mainwindow.h
 
 FORMS    += \
     mainwindow.ui

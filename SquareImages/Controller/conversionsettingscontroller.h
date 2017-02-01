@@ -3,14 +3,16 @@
 
 #include <QObject>
 
-#include <QSpinBox>
-#include <QSlider>
-#include <QGraphicsView>
-#include <QPushButton>
-#include <QCheckBox>
-
 #include "Model/conversionmodel.h"
 #include "Model/conversionsettingsmodel.h"
+
+class QComboBox;
+class QSpinBox;
+class QSlider;
+class QGraphicsView;
+class QPushButton;
+class QCheckBox;
+class QLineEdit;
 
 class ConversionSettingsController : public QObject
 {
@@ -26,11 +28,19 @@ public:
     void setConversionSettingsModel(ConversionSettingsModel *conversionSettingsModel);
 
 
+    void connectConverterTypeComboBox(QComboBox *widget);
+
+    void connectHorizontalAlignmentComboBox(QComboBox *widget);
+    void connectVerticalAlignmentComboBox(QComboBox *widget);
+
     void connectXRatioSpinBox(QSpinBox *widget);
     void connectYRatioSpinBox(QSpinBox *widget);
 
     void connectMarginSpinBox(QSpinBox *widget);
     void connectMarginSlider(QSlider *widget);
+
+    void connectTextSizeSpinBox(QSpinBox *widget);
+    void connectTextSizeSlider(QSlider *widget);
 
     void connectAlphaToleranceSpinBox(QSpinBox *widget);
     void connectAlphaToleranceSlider(QSlider *widget);
@@ -38,14 +48,26 @@ public:
     void connectColorToleranceSpinBox(QSpinBox *widget);
     void connectColorToleranceSlider(QSlider *widget);
 
-    void connectColorView(QGraphicsView *widget);
-    void connectColorButton(QPushButton *widget);
-
     void connectClearColorCheckBox(QCheckBox *widget);
 
-    void selectColor();
+    void connectBackgroundColorView(QGraphicsView *widget);
+    void connectBackgroundColorButton(QPushButton *widget);
 
-    void setColorViewColor(const QColor &color);
+    void connectTextColorView(QGraphicsView *widget);
+    void connectTextColorButton(QPushButton *widget);
+
+    void connectTextFontLineEdit(QLineEdit *widget);
+    void connectTextFontButton(QPushButton *widget);
+
+protected:
+    void selectBackgroundColor();
+    void setBackgroundColorViewColor(const QColor &backgroundColor);
+
+    void selectTextColor();
+    void setTextColorViewColor(const QColor &textColor);
+
+    void selectTextFont();
+    void setTextFontLineEditFont(const QFont &textFont);
 
 signals:
 
@@ -53,11 +75,19 @@ public slots:
     void refreshWidgets();
 
 protected:
-    void refreshXRadioSpinBox();
-    void refreshYRadioSpinBox();
+    void refreshConverterTypeComboBox();
+
+    void refreshHorizontalAlignmentComboBox();
+    void refreshVerticalAlignmentComboBox();
+
+    void refreshXRatioSpinBox();
+    void refreshYRatioSpinBox();
 
     void refreshMarginSpinBox();
     void refreshMarginSlider();
+
+    void refreshTextSizeSpinBox();
+    void refreshTextSizeSlider();
 
     void refreshAlphaToleranceSpinBox();
     void refreshAlphaToleranceSlider();
@@ -65,14 +95,26 @@ protected:
     void refreshColorToleranceSpinBox();
     void refreshColorToleranceSlider();
 
-    void refreshColorView();
-    void refreshColorButton();
-
     void refreshClearColorCheckBox();
+
+    void refreshBackgroundColorView();
+    void refreshBackgroundColorButton();
+
+    void refreshTextColorView();
+    void refreshTextColorButton();
+
+    void refreshTextFontLineEdit();
+    void refreshTextFontButton();
 
 private:
     ConversionModel *_conversionModel;
     ConversionSettingsModel *_conversionSettingsModel;
+
+
+    QComboBox *_converterTypeComboBox;
+
+    QComboBox *_horizontalAlignmentComboBox;
+    QComboBox *_verticalAlignmentComboBox;
 
     QSpinBox *_xRatioSpinBox;
     QSpinBox *_yRatioSpinBox;
@@ -80,16 +122,25 @@ private:
     QSpinBox *_marginSpinBox;
     QSlider *_marginSlider;
 
+    QSpinBox *_textSizeSpinBox;
+    QSlider *_textSizeSlider;
+
+    QCheckBox *_clearColorCheckBox;
+
     QSpinBox *_alphaToleranceSpinBox;
     QSlider *_alphaToleranceSlider;
 
     QSpinBox *_colorToleranceSpinBox;
     QSlider *_colorToleranceSlider;
 
-    QGraphicsView *_colorView;
-    QPushButton *_colorButton;
+    QGraphicsView *_backgroundColorView;
+    QPushButton *_backgroundColorButton;
 
-    QCheckBox *_clearColorCheckBox;
+    QGraphicsView *_textColorView;
+    QPushButton *_textColorButton;
+
+    QLineEdit *_textFontLineEdit;
+    QPushButton *_textFontButton;
 };
 
 #endif // CONVERSIONSETTINGSCONTROLLER_H

@@ -61,7 +61,7 @@ void SimpleFileRecordDecryptorTest::decryptFileRecord_data() {
             << ""
             << ""
             << ""
-            << "Nie znaleziono zdjęcia: Invalid, w folderze: E:/QtApps/SquareImages/TestData/Input/SimpleFileRecordDecryptor.";
+            << "Nie znaleziono zdjęcia: <b>Invalid</b>, w folderze: <br><b>E:/QtApps/SquareImages/TestData/Input/SimpleFileRecordDecryptor</b>.";
 
     QTest::newRow("Name, extension: Invalid, empty")
             << "E:/QtApps/SquareImages/TestData/Input/SimpleFileRecordDecryptor"
@@ -72,7 +72,7 @@ void SimpleFileRecordDecryptorTest::decryptFileRecord_data() {
             << ""
             << ""
             << ""
-            << "Nie znaleziono zdjęcia: Invalid, w folderze: E:/QtApps/SquareImages/TestData/Input/SimpleFileRecordDecryptor.";
+            << "Nie znaleziono zdjęcia: <b>Invalid</b>, w folderze: <br><b>E:/QtApps/SquareImages/TestData/Input/SimpleFileRecordDecryptor</b>.";
 
     QTest::newRow("Name, extension: Invalid, some;path;extension")
             << "E:/QtApps/SquareImages/TestData/Input/SimpleFileRecordDecryptor"
@@ -83,7 +83,7 @@ void SimpleFileRecordDecryptorTest::decryptFileRecord_data() {
             << ""
             << ""
             << ""
-            << "Nie znaleziono zdjęcia: Invalid, w folderze: E:/QtApps/SquareImages/TestData/Input/SimpleFileRecordDecryptor.";
+            << "Nie znaleziono zdjęcia: <b>Invalid</b>, w folderze: <br><b>E:/QtApps/SquareImages/TestData/Input/SimpleFileRecordDecryptor</b>.";
 
     QTest::newRow("Name, extension: 3M, none")
             << "E:/QtApps/SquareImages/TestData/Input/SimpleFileRecordDecryptor"
@@ -164,12 +164,14 @@ void SimpleFileRecordDecryptorTest::decryptFileRecord() {
     QFETCH(QString, outputFileName);
     QFETCH(QString, error);
 
-    MainSettingsModel model;
-    model.setSourcePath(sourcePath);
-    model.setOutputPath(outputPath);
-    model.setCheckSubdirs(checkSubdirs);
 
-    SimpleFileRecordDecryptor decryptor(model);
+    ImageRecordsModel imageRecordsModel;
+    MainSettingsModel fileSettingsModel;
+    fileSettingsModel.setSourcePath(sourcePath);
+    fileSettingsModel.setOutputPath(outputPath);
+    fileSettingsModel.setCheckSubdirs(checkSubdirs);
+
+    SimpleFileRecordDecryptor decryptor(imageRecordsModel, fileSettingsModel);
 
     FileRecord result = decryptor.decryptFileRecord(fieldsString);
 

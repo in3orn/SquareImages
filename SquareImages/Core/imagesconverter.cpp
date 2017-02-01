@@ -51,15 +51,15 @@ void ImagesConverter::run() {
 
                 QImage inputImage;
                 if(inputImage.load(inputFile)) {
-                    QImage outputImage = _imageConverter->convert(inputImage);
+                    QImage outputImage = _imageConverter->convert(inputImage, fileRecord);
 
                     preparePath(fileRecord.outputFilePath);
 
                     if(!outputImage.save(outputFile)) {
-                        fileRecord.setError(tr("Nie można zapisać pliku: %0.").arg(outputFile));
+                        fileRecord.setError(tr("Nie można zapisać pliku: <b>%0</b>.").arg(outputFile));
                     }
                 } else {
-                    fileRecord.setError(tr("Nie można wczytać pliku: %0.").arg(inputFile));
+                    fileRecord.setError(tr("Nie można wczytać pliku: <b>%0</b>.").arg(inputFile));
                 }
 
                 fileRecord.finish();

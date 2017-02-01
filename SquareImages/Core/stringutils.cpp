@@ -62,6 +62,13 @@ QString StringUtils::removeFileName(const QString &filePath) {
     return filePath;
 }
 
+QString StringUtils::getFileName(const QString &filePath) {
+    int index = filePath.lastIndexOf("/");
+    if(index >= 0) {
+        return filePath.mid(index+1);
+    }
+    return "";
+}
 QString StringUtils::removeFileExtension(const QString &filePath) {
     int index = filePath.lastIndexOf(".");
     if(index >= 0) {

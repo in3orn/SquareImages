@@ -15,6 +15,8 @@ public:
 
     static QString removeFileName(const QString &filePath);
 
+    static QString getFileName(const QString &filePath);
+
     static QString removeFileExtension(const QString &filePath);
 
     static QString getFileExtension(const QString &filePath);

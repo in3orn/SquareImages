@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>650</height>
+    <width>1280</width>
+    <height>960</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,12 +29,12 @@
             <string>Typ konwersji</string>
            </property>
            <property name="buddy">
-            <cstring>conversionType</cstring>
+            <cstring>conversionTypeComboBox</cstring>
            </property>
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QComboBox" name="conversionType"/>
+          <widget class="QComboBox" name="conversionTypeComboBox"/>
          </item>
          <item row="2" column="1">
           <layout class="QHBoxLayout" name="outputPathLayout">
@@ -154,13 +154,23 @@
         </property>
         <layout class="QFormLayout" name="formLayout_2">
          <item row="0" column="0">
+          <widget class="QLabel" name="converterTypeLabel">
+           <property name="text">
+            <string>Typ konwertera</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="converterTypeComboBox"/>
+         </item>
+         <item row="1" column="0">
           <widget class="QLabel" name="ratioLabel">
            <property name="text">
             <string>Proporcje</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="1">
+         <item row="1" column="1">
           <layout class="QHBoxLayout" name="ratioLayout">
            <item>
             <widget class="QSpinBox" name="xRatio">
@@ -194,14 +204,14 @@
            </item>
           </layout>
          </item>
-         <item row="3" column="0">
+         <item row="4" column="0">
           <widget class="QLabel" name="marginLabel">
            <property name="text">
             <string>Marginesy (%)</string>
            </property>
           </widget>
          </item>
-         <item row="3" column="1">
+         <item row="4" column="1">
           <layout class="QHBoxLayout" name="marginLayout">
            <item>
             <widget class="QSlider" name="marginSlider">
@@ -228,14 +238,14 @@
            </item>
           </layout>
          </item>
-         <item row="5" column="0">
+         <item row="6" column="0">
           <widget class="QLabel" name="alphaToleranceLabel">
            <property name="text">
             <string>Tolerancja przezroczystości</string>
            </property>
           </widget>
          </item>
-         <item row="5" column="1">
+         <item row="6" column="1">
           <layout class="QHBoxLayout" name="alphaToleranceLayout">
            <item>
             <widget class="QSlider" name="alphaToleranceSlider">
@@ -257,16 +267,44 @@
           </layout>
          </item>
          <item row="8" column="0">
-          <widget class="QLabel" name="colorLabel">
+          <widget class="QLabel" name="backgroundColorToleranceLabel">
+           <property name="text">
+            <string>Tolerancja koloru tła</string>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="1">
+          <layout class="QHBoxLayout" name="backgroundColorToleranceLayout">
+           <item>
+            <widget class="QSlider" name="backgroundColorToleranceSlider">
+             <property name="maximum">
+              <number>255</number>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="backgroundColorToleranceSpinBox">
+             <property name="maximum">
+              <number>255</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="9" column="0">
+          <widget class="QLabel" name="backgroundColorLabel">
            <property name="text">
             <string>Kolor tła</string>
            </property>
           </widget>
          </item>
-         <item row="8" column="1">
-          <layout class="QHBoxLayout" name="colorLayout">
+         <item row="9" column="1">
+          <layout class="QHBoxLayout" name="backgroundColorLayout">
            <item>
-            <widget class="QGraphicsView" name="colorView">
+            <widget class="QGraphicsView" name="backgroundColorView">
              <property name="enabled">
               <bool>true</bool>
              </property>
@@ -291,7 +329,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="colorButton">
+            <widget class="QPushButton" name="backgroundColorButton">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -305,40 +343,118 @@
            </item>
           </layout>
          </item>
-         <item row="7" column="1">
-          <layout class="QHBoxLayout" name="colorToleranceLayout">
+         <item row="11" column="1">
+          <widget class="QComboBox" name="horizontalAlignmentComboBox"/>
+         </item>
+         <item row="11" column="0">
+          <widget class="QLabel" name="horizontalAlignmentLabel">
+           <property name="text">
+            <string>Wyrównanie poziome</string>
+           </property>
+          </widget>
+         </item>
+         <item row="12" column="1">
+          <widget class="QComboBox" name="verticalAlignmentComboBox"/>
+         </item>
+         <item row="12" column="0">
+          <widget class="QLabel" name="verticalAlignmentLabel">
+           <property name="text">
+            <string>Wyrównanie pionowe</string>
+           </property>
+          </widget>
+         </item>
+         <item row="10" column="1">
+          <widget class="QCheckBox" name="clearColorCheckBox">
+           <property name="text">
+            <string>Szparuj zdjęcie</string>
+           </property>
+          </widget>
+         </item>
+         <item row="14" column="1">
+          <layout class="QHBoxLayout" name="textColorLayout">
            <item>
-            <widget class="QSlider" name="colorToleranceSlider">
-             <property name="maximum">
-              <number>255</number>
+            <widget class="QGraphicsView" name="textColorView">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
+             <property name="minimumSize">
+              <size>
+               <width>8</width>
+               <height>10</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>20</width>
+               <height>20</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="textColorButton">
+             <property name="text">
+              <string>Wybierz kolor</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="14" column="0">
+          <widget class="QLabel" name="textColorLabel">
+           <property name="text">
+            <string>Kolor tekstu</string>
+           </property>
+          </widget>
+         </item>
+         <item row="16" column="1">
+          <layout class="QHBoxLayout" name="textFontLayout">
+           <item>
+            <widget class="QLineEdit" name="textFontLineEdit"/>
+           </item>
+           <item>
+            <widget class="QPushButton" name="textFontButton">
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="16" column="0">
+          <widget class="QLabel" name="textFontLabel">
+           <property name="text">
+            <string>Font</string>
+           </property>
+          </widget>
+         </item>
+         <item row="13" column="0">
+          <widget class="QLabel" name="textSizeLabel">
+           <property name="text">
+            <string>Wielkość tekstu</string>
+           </property>
+          </widget>
+         </item>
+         <item row="13" column="1">
+          <layout class="QHBoxLayout" name="textSizeLayout">
+           <item>
+            <widget class="QSlider" name="textSizeSlider">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="colorToleranceSpinBox">
+            <widget class="QSpinBox" name="textSizeSpinBox">
              <property name="maximum">
-              <number>255</number>
+              <number>100</number>
              </property>
             </widget>
            </item>
           </layout>
-         </item>
-         <item row="7" column="0">
-          <widget class="QLabel" name="colorToleranceLabel">
-           <property name="text">
-            <string>Tolerancja koloru tła</string>
-           </property>
-          </widget>
-         </item>
-         <item row="9" column="1">
-          <widget class="QCheckBox" name="clearColorCheckBox">
-           <property name="text">
-            <string>Szparuj zdjęcie</string>
-           </property>
-          </widget>
          </item>
         </layout>
        </widget>
@@ -421,7 +537,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1280</width>
      <height>21</height>
     </rect>
    </property>

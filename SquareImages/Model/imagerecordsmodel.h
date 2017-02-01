@@ -13,7 +13,7 @@ class ImageRecordsModel : public QAbstractTableModel
 public:
     enum Columns {
         Index = 0,
-        FileName,
+        Name,
         State,
         Error,
         Size
@@ -24,16 +24,16 @@ public:
 
 
     Q_INVOKABLE virtual QModelIndex index(int row, int column,
-                              const QModelIndex &parent = QModelIndex()) const;
-    Q_INVOKABLE virtual QModelIndex parent(const QModelIndex &child) const;
+                              const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
+    Q_INVOKABLE virtual QModelIndex parent(const QModelIndex &child) const Q_DECL_OVERRIDE;
 
-    Q_INVOKABLE virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
-    Q_INVOKABLE virtual int columnCount(const QModelIndex &parent = QModelIndex()) const;
+    Q_INVOKABLE virtual int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
+    Q_INVOKABLE virtual int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
 
-    Q_INVOKABLE virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-    Q_INVOKABLE virtual bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
+    Q_INVOKABLE virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
+    Q_INVOKABLE virtual bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) Q_DECL_OVERRIDE;
 
-    Q_INVOKABLE virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+    Q_INVOKABLE virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
 
     FileRecord getRecord(int indx);
     void setRecord(int indx, const FileRecord &fileRecord);

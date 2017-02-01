@@ -131,8 +131,11 @@ void MainSettingsController::connectForcedFormatComboBox(QComboBox *widget) {
     _forcedFormatComboBox->setCurrentIndex(_mainSettingsModel->getForcedFormat());
     refreshForcedFormatComboBox();
 
-    connect(widget, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), _mainSettingsModel, &MainSettingsModel::setForcedFormat);
-    connect(_mainSettingsModel, &MainSettingsModel::forcedFormatChanged, widget, &QComboBox::setCurrentIndex);
+    connect(widget, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+            _mainSettingsModel, static_cast<void(MainSettingsModel::*)(int)>(&MainSettingsModel::setForcedFormat));
+
+    connect(_mainSettingsModel, static_cast<void(MainSettingsModel::*)(int)>(&MainSettingsModel::forcedFormatChanged),
+            widget, &QComboBox::setCurrentIndex);
 }
 
 
@@ -230,15 +233,21 @@ void MainSettingsController::refreshOutputPathLineEdit() {
 }
 
 void MainSettingsController::refreshSourceFileLineEdit() {
-    _sourceFileLineEdit->setEnabled(!_conversionModel->isRunning() && _mainSettingsModel->getConversionType() == 0);
+    _sourceFileLineEdit->setEnabled(!_conversionModel->isRunning() &&
+                                    (_mainSettingsModel->getConversionType() == MainSettingsModel::ConvertSingleImage ||
+                                     _mainSettingsModel->getConversionType() == MainSettingsModel::ConvertTopProductImages));
 }
 
 void MainSettingsController::refreshSourcePathLineEdit() {
-    _sourcePathLineEdit->setEnabled(!_conversionModel->isRunning() && _mainSettingsModel->getConversionType() > 0);
+    _sourcePathLineEdit->setEnabled(!_conversionModel->isRunning() &&
+                                    _mainSettingsModel->getConversionType() != MainSettingsModel::ConvertSingleImage &&
+                                    _mainSettingsModel->getConversionType() != MainSettingsModel::ConvertTopProductImages);
 }
 
 void MainSettingsController::refreshListFileLineEdit() {
-    _listFileLineEdit->setEnabled(!_conversionModel->isRunning() && _mainSettingsModel->getConversionType() > 1);
+    _listFileLineEdit->setEnabled(!_conversionModel->isRunning() &&
+                                  _mainSettingsModel->getConversionType() != MainSettingsModel::ConvertSingleImage &&
+                                  _mainSettingsModel->getConversionType() != MainSettingsModel::ConvertDirectoryImages);
 }
 
 
@@ -247,20 +256,28 @@ void MainSettingsController::refreshOutputPathPushButton() {
 }
 
 void MainSettingsController::refreshSourceFilePushButton() {
-    _sourceFilePushButton->setEnabled(!_conversionModel->isRunning() && _mainSettingsModel->getConversionType() == 0);
+    _sourceFilePushButton->setEnabled(!_conversionModel->isRunning() &&
+                                      (_mainSettingsModel->getConversionType() == MainSettingsModel::ConvertSingleImage ||
+                                       _mainSettingsModel->getConversionType() == MainSettingsModel::ConvertTopProductImages));
 }
 
 void MainSettingsController::refreshSourcePathPushButton() {
-    _sourcePathPushButton->setEnabled(!_conversionModel->isRunning() && _mainSettingsModel->getConversionType() > 0);
+    _sourcePathPushButton->setEnabled(!_conversionModel->isRunning() &&
+                                      _mainSettingsModel->getConversionType() != MainSettingsModel::ConvertSingleImage &&
+                                      _mainSettingsModel->getConversionType() != MainSettingsModel::ConvertTopProductImages);
 }
 
 void MainSettingsController::refreshListFilePushButton() {
-    _listFilePushButton->setEnabled(!_conversionModel->isRunning() && _mainSettingsModel->getConversionType() > 1);
+    _listFilePushButton->setEnabled(!_conversionModel->isRunning() &&
+                                    _mainSettingsModel->getConversionType() != MainSettingsModel::ConvertSingleImage &&
+                                    _mainSettingsModel->getConversionType() != MainSettingsModel::ConvertDirectoryImages);
 }
 
 
 void MainSettingsController::refreshCheckSubdirs() {
-    _checkSubdirs->setEnabled(!_conversionModel->isRunning() && _mainSettingsModel->getConversionType() > 0);
+    _checkSubdirs->setEnabled(!_conversionModel->isRunning() &&
+                              _mainSettingsModel->getConversionType() != MainSettingsModel::ConvertSingleImage &&
+                              _mainSettingsModel->getConversionType() != MainSettingsModel::ConvertTopProductImages);
 }
 
 void MainSettingsController::refreshReplaceExisting() {

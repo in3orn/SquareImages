@@ -7,12 +7,10 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
 
-    _conversionTypesModel(Q_NULLPTR),
     _mainSettingsController(Q_NULLPTR)
 {
     ui->setupUi(this);
 
-    initModels();
     initWidgets();
     initControllers();
 }
@@ -24,38 +22,13 @@ MainWindow::~MainWindow()
 
 
 
-void MainWindow::initModels() {
-    initConversionTypesModel();
-    initForcedFormatsModel();
-}
-
-void MainWindow::initConversionTypesModel() {
-    QStringList model;
-
-    model << tr("Obrazek (pojedynczy)");
-    model << tr("Obrazki z katalogu");
-    model << tr("Obrazki z listy (dowolne)");
-    model << tr("Obrazki z listy (marki)");
-    model << tr("Obrazki z listy (produkty)");
-
-    _conversionTypesModel = new QStringListModel(model, this);
-}
-
-void MainWindow::initForcedFormatsModel() {
-    QStringList model;
-
-    model << tr("Brak");
-    model << tr(".png");
-    model << tr(".jpg");
-
-    _forcedFormatsModel = new QStringListModel(model, this);
-}
-
-
-
 void MainWindow::initWidgets() {
-    ui->conversionType->setModel(_conversionTypesModel);
-    ui->forcedFormatComboBox->setModel(_forcedFormatsModel);
+    ui->conversionTypeComboBox->setModel(new QStringListModel(MainSettingsModel::convertsionTypeNames, this));
+    ui->forcedFormatComboBox->setModel(new QStringListModel(MainSettingsModel::forcedFormatNames, this));
+
+    ui->converterTypeComboBox->setModel(new QStringListModel(ConversionSettingsModel::converterTypeNames, this));
+    ui->horizontalAlignmentComboBox->setModel(new QStringListModel(ConversionSettingsModel::horizontalAlignmentNames, this));
+    ui->verticalAlignmentComboBox->setModel(new QStringListModel(ConversionSettingsModel::verticalAlignmentNames, this));
 }
 
 
@@ -68,9 +41,6 @@ void MainWindow::initControllers() {
 }
 
 void MainWindow::initConversionController() {
-    _imagesConverter = new ImagesConverter(_imageRecordsModel, _mainSettingsModel, this);
-    _imagesConverter->setImageConverter(ImageConverterFactory::getInstance().createSquareImageConverter(_conversionSettingsModel, _mainSettingsModel));
-
     _conversionController.setConversionModel(&_conversionModel);
     _conversionController.setConversionSettingsModel(&_conversionSettingsModel);
     _conversionController.setImageRecordsModel(&_imageRecordsModel);
@@ -83,13 +53,17 @@ void MainWindow::initConversionController() {
     _conversionController.connectCancelAction(ui->cancelButton);
 
     _conversionController.connectProgress(ui->progressProgressBar);
-
-    _conversionController.connectImagesConverter(_imagesConverter);
 }
 
 void MainWindow::initConversionSettingsController() {
     _conversionSettingsController.setConversionModel(&_conversionModel);
     _conversionSettingsController.setConversionSettingsModel(&_conversionSettingsModel);
+
+
+    _conversionSettingsController.connectConverterTypeComboBox(ui->converterTypeComboBox);
+
+    _conversionSettingsController.connectHorizontalAlignmentComboBox(ui->horizontalAlignmentComboBox);
+    _conversionSettingsController.connectVerticalAlignmentComboBox(ui->verticalAlignmentComboBox);
 
     _conversionSettingsController.connectXRatioSpinBox(ui->xRatio);
     _conversionSettingsController.connectYRatioSpinBox(ui->yRatio);
@@ -97,16 +71,25 @@ void MainWindow::initConversionSettingsController() {
     _conversionSettingsController.connectMarginSpinBox(ui->marginSpinBox);
     _conversionSettingsController.connectMarginSlider(ui->marginSlider);
 
+    _conversionSettingsController.connectTextSizeSpinBox(ui->textSizeSpinBox);
+    _conversionSettingsController.connectTextSizeSlider(ui->textSizeSlider);
+
     _conversionSettingsController.connectAlphaToleranceSpinBox(ui->alphaToleranceSpinBox);
     _conversionSettingsController.connectAlphaToleranceSlider(ui->alphaToleranceSlider);
 
-    _conversionSettingsController.connectColorToleranceSpinBox(ui->colorToleranceSpinBox);
-    _conversionSettingsController.connectColorToleranceSlider(ui->colorToleranceSlider);
-
-    _conversionSettingsController.connectColorView(ui->colorView);
-    _conversionSettingsController.connectColorButton(ui->colorButton);
+    _conversionSettingsController.connectColorToleranceSpinBox(ui->backgroundColorToleranceSpinBox);
+    _conversionSettingsController.connectColorToleranceSlider(ui->backgroundColorToleranceSlider);
 
     _conversionSettingsController.connectClearColorCheckBox(ui->clearColorCheckBox);
+
+    _conversionSettingsController.connectBackgroundColorView(ui->backgroundColorView);
+    _conversionSettingsController.connectBackgroundColorButton(ui->backgroundColorButton);
+
+    _conversionSettingsController.connectTextColorView(ui->textColorView);
+    _conversionSettingsController.connectTextColorButton(ui->textColorButton);
+
+    _conversionSettingsController.connectTextFontLineEdit(ui->textFontLineEdit);
+    _conversionSettingsController.connectTextFontButton(ui->textFontButton);
 }
 
 void MainWindow::initMainSettingsController() {
@@ -114,7 +97,8 @@ void MainWindow::initMainSettingsController() {
     _mainSettingsController->setConversionModel(&_conversionModel);
     _mainSettingsController->setMainSettingsModel(&_mainSettingsModel);
 
-    _mainSettingsController->connectConversionType(ui->conversionType);
+
+    _mainSettingsController->connectConversionType(ui->conversionTypeComboBox);
 
     _mainSettingsController->connectOutputPathLineEdit(ui->outputPathLineEdit);
     _mainSettingsController->connectSourceFileLineEdit(ui->sourceFileLineEdit);

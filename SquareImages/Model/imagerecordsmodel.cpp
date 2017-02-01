@@ -31,8 +31,8 @@ QVariant ImageRecordsModel::data(const QModelIndex &index, int role) const {
         switch (index.column()) {
         case Index:
             return index.row();
-        case FileName:
-            return _model.at(index.row()).inputFileName;
+        case Name:
+            return _model.at(index.row()).name;
         case State:
             return _model.at(index.row()).getStatusString();
         case Error:
@@ -58,8 +58,8 @@ QVariant ImageRecordsModel::headerData(int section, Qt::Orientation orientation,
         switch (section) {
         case Index:
             return tr("Lp.");
-        case FileName:
-            return tr("Nazwa pliku");
+        case Name:
+            return tr("Nazwa");
         case State:
             return tr("Status");
         case Error:
@@ -71,6 +71,8 @@ QVariant ImageRecordsModel::headerData(int section, Qt::Orientation orientation,
 
     return QVariant();
 }
+
+
 
 FileRecord ImageRecordsModel::getRecord(int indx) {
     return _model[indx];

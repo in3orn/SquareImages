@@ -1,8 +1,6 @@
 #include "squareimageconverter.h"
 
-#include "colorutils.h"
-
-#include <QPainter>
+#include "imageutils.h"
 
 SquareImageConverter::SquareImageConverter(ConversionSettingsModel &conversionSettingsModel, MainSettingsModel &fileSettingsModel) :
     _conversionSettingsModel(conversionSettingsModel),
@@ -15,7 +13,7 @@ SquareImageConverter::SquareImageConverter(ConversionSettingsModel &conversionSe
 
 
 
-QImage SquareImageConverter::convert(const QImage &image) const {
+QImage SquareImageConverter::convert(const QImage &image, const FileRecord &/* fileRecord */) {
 
     int topMargin = getTopMargin(image);
     int leftMargin = getLeftMargin(image);
@@ -27,52 +25,25 @@ QImage SquareImageConverter::convert(const QImage &image) const {
 
     int margin = qMin(width, height) * _conversionSettingsModel.getMargin() / 100;
 
-    QSize size = getNewSize(QSize(width + 2*margin, height + 2*margin));
+    QSize size = getNewImageSize(QSize(width + 2*margin, height + 2*margin));
+
+    QImage::Format format = ImageUtils::getOutputFormat(_fileSettingsModel.getForcedFormat(), image.format());
+    QImage newImage(size, format);
+
+    QColor bkgColor = ImageUtils::getBackgroundColor(format);
+    newImage.fill(bkgColor);
 
     int mx = (size.width() - width) / 2;
     int my = (size.height() - height) / 2;
+    QPoint topLeft(mx, my);
 
-    QColor bkgColor = _white;
-    QImage::Format format = QImage::Format_RGB888;
-
-    if(_fileSettingsModel.getForcedFormat() == MainSettingsModel::ForcedFormat::PNG) {
-        bkgColor = _transparent;
-        format = QImage::Format_RGBA8888;
-    } else if(_fileSettingsModel.getForcedFormat() == MainSettingsModel::ForcedFormat::None) {
-        bkgColor = ColorUtils::hasAlpha(image.format()) ? _transparent : _white;
-        format = image.format();
+    newImage = ImageUtils::insertImage(newImage, image, topLeft);
+    if(_conversionSettingsModel.isClearColor()) {
+        newImage = ImageUtils::removeColor(newImage,
+                                           _conversionSettingsModel.getBackgroundColor(),
+                                           _conversionSettingsModel.getColorTolerance(),
+                                           _conversionSettingsModel.getAlphaTolerance());
     }
-
-    QImage newImage(size, format);
-
-    for(int x = 0; x < size.width(); x++) {
-        for(int y = 0; y < size.height(); y++) {
-            newImage.setPixelColor(x, y, bkgColor);
-        }
-    }
-
-    bool clearColor = _conversionSettingsModel.isClearColor();
-
-    int imageX = leftMargin;
-    for(int x = mx; x < size.width() - mx; x++) {
-
-        int imageY = topMargin;
-        for(int y = my; y < size.height() - my; y++) {
-            QColor color = image.pixelColor(imageX, imageY);
-            if(clearColor && isMarginColor(color)) {
-                color = bkgColor;
-            }
-
-            newImage.setPixelColor(x, y, color);
-            imageY++;
-        }
-        imageX++;
-    }
-
-//    QPainter painter(&newImage);
-//    painter.setPen(QPen(Qt::blue));
-//    painter.setFont(QFont("Arial Black", 64, QFont::Bold));
-//    painter.drawText(newImage.rect(), Qt::AlignCenter, "Samsung");
 
     return newImage;
 }
@@ -165,7 +136,7 @@ int SquareImageConverter::getBottomMargin(const QImage &image) const {
     return margin;
 }
 
-QSize SquareImageConverter::getNewSize(const QSize &size) const {
+QSize SquareImageConverter::getNewImageSize(const QSize &size) const {
 
     double ratio = (double)_conversionSettingsModel.getXRatio() / (double)_conversionSettingsModel.getYRatio();
 
@@ -197,7 +168,7 @@ QSize SquareImageConverter::getNewSize(const QSize &size) const {
 bool SquareImageConverter::isMarginColor(const QColor &color) const {
     if(color.alpha() < _conversionSettingsModel.getAlphaTolerance()) return true;
 
-    QColor bkgColor = _conversionSettingsModel.getColor();
+    QColor bkgColor = _conversionSettingsModel.getBackgroundColor();
     int colorTolerance = _conversionSettingsModel.getColorTolerance();
 
     if(qAbs(bkgColor.red() - color.red()) > colorTolerance) return false;

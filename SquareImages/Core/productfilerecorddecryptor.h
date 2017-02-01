@@ -12,7 +12,7 @@ public:
     explicit ProductFileRecordDecryptor(ImageRecordsModel &imageRecordsModel, MainSettingsModel &fileRecordSettingsModel, QObject *parent = 0);
 
 protected:
-    virtual FileRecord prepareFileRecord(const QStringList &fields) const;
+    virtual FileRecord prepareFileRecord(const QStringList &fields) const Q_DECL_OVERRIDE;
 
     virtual QString getOutputFileRecordExtension(const QStringList &fields) const;
 };

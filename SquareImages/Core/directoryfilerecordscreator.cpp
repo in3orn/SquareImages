@@ -52,6 +52,7 @@ void DirectoryFileRecordsCreator::processFile(const QFileInfo &fileInfo) {
     extPath = extPath.left(index);
     extPath.replace(_fileSettingsModel.getSourcePath(), "");
 
+    fileRecord.name = StringUtils::removeFileExtension(fileInfo.fileName());
     fileRecord.inputFilePath = _fileSettingsModel.getSourcePath() + extPath;
     fileRecord.inputFileName = fileInfo.fileName();
     fileRecord.outputFilePath = _fileSettingsModel.getOutputPath() + extPath;

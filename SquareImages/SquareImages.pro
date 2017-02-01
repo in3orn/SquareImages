@@ -18,5 +18,6 @@ include (Core/Core.pri)
 include (Model/Model.pri)
 include (View.pri)
 include (Controller/Controller.pri)
+include (Delegate/Delegate.pri)
 
 SOURCES += main.cpp

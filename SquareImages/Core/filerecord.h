@@ -24,6 +24,8 @@ public:
     void omit();
 
 public:
+    QString name;
+
     QString inputFilePath;
     QString inputFileName;
 

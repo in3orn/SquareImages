@@ -11,7 +11,7 @@ class SquareImageConverter : public ImageConverter
 public:
     SquareImageConverter(ConversionSettingsModel &conversionSettingsModel, MainSettingsModel &fileSettingsModel);
 
-    virtual QImage convert(const QImage &image) const;
+    virtual QImage convert(const QImage &image, const FileRecord &fileRecord) Q_DECL_OVERRIDE;
 
 protected:
     int getTopMargin(const QImage &image) const;
@@ -19,7 +19,7 @@ protected:
     int getRightMargin(const QImage &image) const;
     int getBottomMargin(const QImage &image) const;
 
-    QSize getNewSize(const QSize &size) const;
+    QSize getNewImageSize(const QSize &size) const;
 
     bool isMarginColor(const QColor &color) const;
 

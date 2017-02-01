@@ -19,15 +19,17 @@ FileRecord ProductFileRecordDecryptor::prepareFileRecord(const QStringList &fiel
     if(fileName.isEmpty())
         return result;
 
+    result.name = fileName;
+
     if(fields.size() < 2) {
-        result.setError(tr("Brand name is empty."));
+        result.setError(tr("Nazwa <b>marki</b> jest <b>pusta</b>."));
         return result;
     }
 
     QString brandName = fields[1];
 
     if(brandName.isEmpty()) {
-        result.setError(tr("Brand name is empty."));
+        result.setError(tr("Nazwa <b>marki</b> jest <b>pusta</b>."));
         return result;
     }
 

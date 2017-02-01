@@ -33,11 +33,12 @@ void SquareImageConverterTest::getTopMargin()
     QFETCH(QString, imagePath);
     QFETCH(int, margin);
 
-    ConversionSettingsModel model;
+    MainSettingsModel fileSettingsModel;
+    ConversionSettingsModel conversionSettingsModel;
 
     QImage image;
     image.load(imagePath);
-    SquareImageConverter converter(model);
+    SquareImageConverter converter(conversionSettingsModel, fileSettingsModel);
 
     int result = converter.getTopMargin(image);
 
@@ -69,11 +70,12 @@ void SquareImageConverterTest::getLeftMargin()
     QFETCH(QString, imagePath);
     QFETCH(int, margin);
 
-    ConversionSettingsModel model;
+    MainSettingsModel fileSettingsModel;
+    ConversionSettingsModel conversionSettingsModel;
 
     QImage image;
     image.load(imagePath);
-    SquareImageConverter converter(model);
+    SquareImageConverter converter(conversionSettingsModel, fileSettingsModel);
 
     int result = converter.getLeftMargin(image);
 
@@ -105,11 +107,12 @@ void SquareImageConverterTest::getRightMargin()
     QFETCH(QString, imagePath);
     QFETCH(int, margin);
 
-    ConversionSettingsModel model;
+    MainSettingsModel fileSettingsModel;
+    ConversionSettingsModel conversionSettingsModel;
 
     QImage image;
     image.load(imagePath);
-    SquareImageConverter converter(model);
+    SquareImageConverter converter(conversionSettingsModel, fileSettingsModel);
 
     int result = converter.getRightMargin(image);
 
@@ -141,11 +144,12 @@ void SquareImageConverterTest::getBottomMargin()
     QFETCH(QString, imagePath);
     QFETCH(int, margin);
 
-    ConversionSettingsModel model;
+    MainSettingsModel fileSettingsModel;
+    ConversionSettingsModel conversionSettingsModel;
 
     QImage image;
     image.load(imagePath);
-    SquareImageConverter converter(model);
+    SquareImageConverter converter(conversionSettingsModel, fileSettingsModel);
 
     int result = converter.getBottomMargin(image);
 
@@ -187,11 +191,12 @@ void SquareImageConverterTest::getNewSize()
     QFETCH(QSize, size);
     QFETCH(QSize, expected);
 
-    ConversionSettingsModel model;
-    model.setXRatio(xRatio);
-    model.setYRatio(yRatio);
+    MainSettingsModel fileSettingsModel;
+    ConversionSettingsModel conversionSettingsModel;
+    conversionSettingsModel.setXRatio(xRatio);
+    conversionSettingsModel.setYRatio(yRatio);
 
-    SquareImageConverter converter(model);
+    SquareImageConverter converter(conversionSettingsModel, fileSettingsModel);
 
     QSize result = converter.getNewSize(size);
 
