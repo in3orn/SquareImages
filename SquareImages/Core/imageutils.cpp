@@ -14,6 +14,18 @@ QImage ImageUtils::insertImage(QImage &image, const QImage &inserted, const QPoi
     return image;
 }
 
+QImage ImageUtils::insertImageRegion(QImage &image, const QImage &inserted, const QRect &region, const QPoint &topLeft)
+{
+    for(int x = 0; x < region.width(); x++) {
+        for(int y = 0; y < region.height(); y++) {
+            QColor color = inserted.pixelColor(region.x() + x, region.y() + y);
+            image.setPixelColor(topLeft.x() + x, topLeft.y() + y, color);
+        }
+    }
+
+    return image;
+}
+
 QImage ImageUtils::insertCroppedImage(QImage &image, const QImage &inserted, const QPoint &topLeft)
 {
     for(int x = 0; x < image.width(); x++) {

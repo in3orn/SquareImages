@@ -57,14 +57,13 @@ FileRecord FileRecordDecryptor::getVerifiedFileRecord(const FileRecord &fileReco
     fileName = StringUtils::removeFileExtension(fileName);
 
     FileRecord result = getFileRecord(directory, fileName);
+    result.name = fileRecord.name;
     result = replaceFormat(result);
 
     if(result.inputFileName.isEmpty()) {
         result.setError(tr("Nie znaleziono zdjęcia: <b>%0</b>, w folderze: <br><b>%1</b>.").
                         arg(StringUtils::removeFileExtension(fileRecord.inputFileName), fileRecord.inputFilePath));
     }
-
-//    result.name = StringUtils::removeFileExtension(fileRecord.inputFileName);
 
     return result;
 }

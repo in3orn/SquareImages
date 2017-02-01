@@ -10,7 +10,9 @@
 class ImageUtils
 {
 public:
-    static QImage insertImage(QImage &image, const QImage &inserted, const QPoint &topLeft = QPoint());
+    static QImage insertImage(QImage &image, const QImage &inserted, const QPoint &topLeft);
+
+    static QImage insertImageRegion(QImage &image, const QImage &inserted, const QRect &region, const QPoint &topLeft);
 
     static QImage insertCroppedImage(QImage &image, const QImage &inserted, const QPoint &topLeft = QPoint());
 

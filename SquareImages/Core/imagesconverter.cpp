@@ -1,6 +1,7 @@
 #include "imagesconverter.h"
 
 #include <QDir>
+#include <QImageReader>
 
 ImagesConverter::ImagesConverter(ImageRecordsModel &imageRecordsModel, MainSettingsModel &mainSettingsModel, QObject *parent) : QThread(parent),
     _imageRecordsModel(imageRecordsModel),
@@ -49,8 +50,10 @@ void ImagesConverter::run() {
                 QString inputFile = fileRecord.inputFilePath + "/" + fileRecord.inputFileName;
                 QString outputFile = fileRecord.outputFilePath + "/" + fileRecord.outputFileName;
 
+                QImageReader reader(inputFile);
+
                 QImage inputImage;
-                if(inputImage.load(inputFile)) {
+                if(reader.read(&inputImage)) {
                     QImage outputImage = _imageConverter->convert(inputImage, fileRecord);
 
                     preparePath(fileRecord.outputFilePath);
@@ -59,7 +62,7 @@ void ImagesConverter::run() {
                         fileRecord.setError(tr("Nie można zapisać pliku: <b>%0</b>.").arg(outputFile));
                     }
                 } else {
-                    fileRecord.setError(tr("Nie można wczytać pliku: <b>%0</b>.").arg(inputFile));
+                    fileRecord.setError(tr("Nie można wczytać pliku: <b>%0</b>.<br><i>%1</i>").arg(inputFile, reader.errorString()));
                 }
 
                 fileRecord.finish();

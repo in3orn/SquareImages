@@ -35,9 +35,14 @@ QImage SquareImageConverter::convert(const QImage &image, const FileRecord &/* f
 
     int mx = (size.width() - width) / 2;
     int my = (size.height() - height) / 2;
+
     QPoint topLeft(mx, my);
 
-    newImage = ImageUtils::insertImage(newImage, image, topLeft);
+    QPoint regionLeft(leftMargin, topMargin);
+    QSize regionSize(width, height);
+    QRect region(regionLeft, regionSize);
+
+    newImage = ImageUtils::insertImageRegion(newImage, image, region, topLeft);
     if(_conversionSettingsModel.isClearColor()) {
         newImage = ImageUtils::removeColor(newImage,
                                            _conversionSettingsModel.getBackgroundColor(),
