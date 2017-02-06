@@ -34,7 +34,7 @@ QStringList MainSettingsModel::forcedFormatNames = MainSettingsModel::initForced
 
 MainSettingsModel::MainSettingsModel(QObject *parent) : QObject(parent),
 
-    _conversionType(0),
+    _conversionType(ConversionType::ConvertSingleImage),
 
     _outputPath(""),
     _sourceFile(""),
@@ -44,14 +44,16 @@ MainSettingsModel::MainSettingsModel(QObject *parent) : QObject(parent),
     _checkSubdirs(false),
     _replaceExisting(false),
 
-    _forcedFormat(ForceNone)
+    _forcedFormat(ForceNone),
+
+    _imageQuality(80)
 {
 
 }
 
 
 
-int MainSettingsModel::getConversionType() const {
+MainSettingsModel::ConversionType MainSettingsModel::getConversionType() const {
     return _conversionType;
 }
 
@@ -96,13 +98,22 @@ QString MainSettingsModel::getForcedFormatExtension() const
     }
 }
 
+int MainSettingsModel::getImageQuality() const {
+    return _imageQuality;
+}
 
 
-void MainSettingsModel::setConversionType(int conversionType) {
+
+void MainSettingsModel::setConversionType(ConversionType conversionType) {
     if(_conversionType != conversionType) {
         _conversionType = conversionType;
-        emit conversionTypeChanged(_conversionType);
+        emit conversionTypeChanged(static_cast<int>(conversionType));
+        emit conversionTypeChanged(conversionType);
     }
+}
+
+void MainSettingsModel::setConversionType(int conversionType) {
+    setConversionType(static_cast<ConversionType>(conversionType));
 }
 
 void MainSettingsModel::setOutputPath(const QString &outputPath) {
@@ -157,4 +168,11 @@ void MainSettingsModel::setForcedFormat(ForcedFormat forcedFormat) {
 
 void MainSettingsModel::setForcedFormat(int forcedFormat) {
     setForcedFormat(static_cast<ForcedFormat>(forcedFormat));
+}
+
+void MainSettingsModel::setImageQuality(int imageQuality) {
+    if(_imageQuality != imageQuality) {
+        _imageQuality = imageQuality;
+        emit imageQualityChanged(imageQuality);
+    }
 }

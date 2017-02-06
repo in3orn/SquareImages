@@ -6,7 +6,8 @@ SOURCES += \
     $$PWD/cropimageconvertertest.cpp \
     $$PWD/toptextimageconvertertest.cpp \
     $$PWD/bottomtextimageconvertertest.cpp \
-    $$PWD/midtextimageconvertertest.cpp
+    $$PWD/midtextimageconvertertest.cpp \
+    $$PWD/scaleimageconvertertest.cpp
 
 HEADERS += \
     ..\SquareImagesTest\squareimageconvertertest.h \
@@ -16,4 +17,5 @@ HEADERS += \
     $$PWD/cropimageconvertertest.h \
     $$PWD/toptextimageconvertertest.h \
     $$PWD/bottomtextimageconvertertest.h \
-    $$PWD/midtextimageconvertertest.h
+    $$PWD/midtextimageconvertertest.h \
+    $$PWD/scaleimageconvertertest.h

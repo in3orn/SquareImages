@@ -5,8 +5,7 @@
 #include "imageutils.h"
 
 TextImageConverter::TextImageConverter(ConversionSettingsModel &conversionSettingsModel, MainSettingsModel &fileSettingsModel) :
-    _conversionSettingsModel(conversionSettingsModel),
-    _fileSettingsModel(fileSettingsModel)
+    ScaleImageConverter(conversionSettingsModel, fileSettingsModel)
 {
     _paintTextSettings.pen = QPen(_conversionSettingsModel.getTextColor());
     _paintTextSettings.font = _conversionSettingsModel.getTextFont();
@@ -15,31 +14,29 @@ TextImageConverter::TextImageConverter(ConversionSettingsModel &conversionSettin
 
 
 
-QImage TextImageConverter::convert(const QImage &image, const FileRecord &fileRecord)
+QImage TextImageConverter::convert(const QImage &source, const FileRecord &fileRecord)
 {
-    QImage::Format format = ImageUtils::getOutputFormat(_fileSettingsModel.getForcedFormat(), image.format());
+    QImage::Format format = ImageUtils::getOutputFormat(_fileSettingsModel.getForcedFormat(), source.format());
     QColor backgroundColor = ImageUtils::getBackgroundColor(format);
 
-    QSize rectSize = getTextRectSize(image.size());
-    QSize newSize = getNewImageSize(image.size(), rectSize);
+    QSize rectSize = getTextRectSize(source.size());
+    QSize newSize = getNewImageSize(source.size(), rectSize);
 
-    QImage newImage(newSize, format);
-    newImage.fill(backgroundColor);
+    QImage image(newSize, format);
+    image.fill(backgroundColor);
 
     QPoint topLeft = getImageTopLeft(newSize, rectSize);
-    newImage = ImageUtils::insertImage(newImage, image, topLeft);
-    if(_conversionSettingsModel.isClearColor()) {
-        newImage = ImageUtils::removeColor(newImage,
-                                           _conversionSettingsModel.getBackgroundColor(),
-                                           _conversionSettingsModel.getColorTolerance(),
-                                           _conversionSettingsModel.getAlphaTolerance());
-    }
+    image = ImageUtils::insertImage(image, source, topLeft);
+
+    image = clearImage(image);
 
     _paintTextSettings.font.setPixelSize(getTextFontHeight(rectSize.height()));
     _paintTextSettings.rect = getTextRect(newSize, rectSize);
-    newImage = ImageUtils::insertText(newImage, _paintTextSettings, fileRecord.name);
+    image = ImageUtils::insertText(image, _paintTextSettings, fileRecord.name);
 
-    return newImage;
+    image = scaleImage(image);
+
+    return image;
 }
 
 QSize TextImageConverter::getTextRectSize(const QSize &size) const

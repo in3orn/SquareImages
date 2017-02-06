@@ -198,7 +198,7 @@ void SquareImageConverterTest::getNewSize()
 
     SquareImageConverter converter(conversionSettingsModel, fileSettingsModel);
 
-    QSize result = converter.getNewSize(size);
+    QSize result = converter.getNewImageSize(size);
 
     QCOMPARE(result, expected);
 }

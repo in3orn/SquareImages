@@ -7,7 +7,7 @@ class MainSettingsModel : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(int conversionType READ getConversionType WRITE setConversionType NOTIFY conversionTypeChanged)
+    Q_PROPERTY(ConversionType conversionType READ getConversionType WRITE setConversionType NOTIFY conversionTypeChanged)
 
     Q_PROPERTY(QString outputPath READ getOutputPath WRITE setOutputPath NOTIFY outputPathChanged)
     Q_PROPERTY(QString sourceFile READ getSourceFile WRITE setSourceFile NOTIFY sourceFileChanged)
@@ -18,6 +18,8 @@ class MainSettingsModel : public QObject
     Q_PROPERTY(bool replaceExisting READ isReplaceExisting WRITE setReplaceExisting NOTIFY replaceExistingChanged)
 
     Q_PROPERTY(ForcedFormat forcedFormat READ getForcedFormat WRITE setForcedFormat NOTIFY forcedFormatChanged)
+
+    Q_PROPERTY(int imageQuality READ getImageQuality WRITE setImageQuality NOTIFY imageQualityChanged)
 
 public:
     enum ConversionType {
@@ -49,7 +51,8 @@ private:
 public:
     explicit MainSettingsModel(QObject *parent = 0);
 
-    int getConversionType() const;
+
+    ConversionType getConversionType() const;
 
     QString getOutputPath() const;
     QString getSourceFile() const;
@@ -62,7 +65,10 @@ public:
     ForcedFormat getForcedFormat() const;
     QString getForcedFormatExtension() const;
 
+    int getImageQuality() const;
+
 signals:
+    void conversionTypeChanged(ConversionType conversionType);
     void conversionTypeChanged(int conversionType);
 
     void outputPathChanged(const QString &outputPath);
@@ -76,7 +82,10 @@ signals:
     void forcedFormatChanged(ForcedFormat forcedFormat);
     void forcedFormatChanged(int forcedFormat);
 
+    void imageQualityChanged(int imageQuality);
+
 public slots:
+    void setConversionType(ConversionType conversionType);
     void setConversionType(int conversionType);
 
     void setOutputPath(const QString &outputPath);
@@ -90,8 +99,10 @@ public slots:
     void setForcedFormat(ForcedFormat forcedFormat);
     void setForcedFormat(int forcedFormat);
 
+    void setImageQuality(int imageQuality);
+
 private:
-    int _conversionType;
+    ConversionType _conversionType;
 
     QString _outputPath;
     QString _sourceFile;
@@ -102,8 +113,11 @@ private:
     bool _replaceExisting;
 
     ForcedFormat _forcedFormat;
+
+    int _imageQuality;
 };
 
+Q_DECLARE_METATYPE(MainSettingsModel::ConversionType)
 Q_DECLARE_METATYPE(MainSettingsModel::ForcedFormat)
 
 #endif // MAINSETTINGSMODEL_H

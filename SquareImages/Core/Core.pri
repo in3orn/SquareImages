@@ -22,7 +22,8 @@ SOURCES += \
     $$PWD/painttextsettings.cpp \
     $$PWD/midtextimageconverter.cpp \
     $$PWD/bottomtextimageconverter.cpp \
-    $$PWD/topproductfilerecorddecryptor.cpp
+    $$PWD/topproductfilerecorddecryptor.cpp \
+    $$PWD/scaleimageconverter.cpp
 
 HEADERS += \
     $$PWD/imageconverter.h \
@@ -46,4 +47,5 @@ HEADERS += \
     $$PWD/painttextsettings.h \
     $$PWD/midtextimageconverter.h \
     $$PWD/bottomtextimageconverter.h \
-    $$PWD/topproductfilerecorddecryptor.h
+    $$PWD/topproductfilerecorddecryptor.h \
+    $$PWD/scaleimageconverter.h

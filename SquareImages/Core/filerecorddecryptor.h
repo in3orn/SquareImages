@@ -30,7 +30,7 @@ protected:
 
     virtual FileRecord getFileRecord(const QDir &directory, const QString &searchedFileName) const;
 
-    virtual FileRecord initFileRecord(const QFileInfo &fileInfo, const QString &normalizedName) const;
+    virtual FileRecord initFileRecord(const QFileInfo &fileInfo, const QString &outputFileName) const;
 
     virtual QString getOutputFileRecordExtension(const QStringList &fields) const;
 

@@ -126,7 +126,7 @@ void TopTextImageConverterTest::convert() {
     QImage image;
     image.load(sourcePath);
 
-    QImage newImage = converter.convert(image);
+    QImage newImage = converter.convert(image, FileRecord());
     newImage.save(outputPath);
 
     QSize newSize = newImage.size();

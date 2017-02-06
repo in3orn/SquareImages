@@ -18,5 +18,5 @@ QString SimpleFileRecordDecryptor::getOutputFileRecordExtension(const QStringLis
         }
     }
 
-    return StringUtils::normalize(result);
+    return StringUtils::normalizePath(result);
 }

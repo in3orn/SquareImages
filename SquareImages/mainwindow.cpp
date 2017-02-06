@@ -29,6 +29,9 @@ void MainWindow::initWidgets() {
     ui->converterTypeComboBox->setModel(new QStringListModel(ConversionSettingsModel::converterTypeNames, this));
     ui->horizontalAlignmentComboBox->setModel(new QStringListModel(ConversionSettingsModel::horizontalAlignmentNames, this));
     ui->verticalAlignmentComboBox->setModel(new QStringListModel(ConversionSettingsModel::verticalAlignmentNames, this));
+
+    ui->maxScaleStrategyComboBox->setModel(new QStringListModel(ConversionSettingsModel::maxScaleStrategyNames, this));
+    ui->minScaleStrategyComboBox->setModel(new QStringListModel(ConversionSettingsModel::minScaleStrategyNames, this));
 }
 
 
@@ -64,6 +67,12 @@ void MainWindow::initConversionSettingsController() {
 
     _conversionSettingsController.connectHorizontalAlignmentComboBox(ui->horizontalAlignmentComboBox);
     _conversionSettingsController.connectVerticalAlignmentComboBox(ui->verticalAlignmentComboBox);
+
+    _conversionSettingsController.connectMaxScaleStrategyComboBox(ui->maxScaleStrategyComboBox);
+    _conversionSettingsController.connectMaxScaleValueSpinBox(ui->maxScaleValueSpinBox);
+
+    _conversionSettingsController.connectMinScaleStrategyComboBox(ui->minScaleStrategyComboBox);
+    _conversionSettingsController.connectMinScaleValueSpinBox(ui->minScaleValueSpinBox);
 
     _conversionSettingsController.connectXRatioSpinBox(ui->xRatio);
     _conversionSettingsController.connectYRatioSpinBox(ui->yRatio);
@@ -114,6 +123,9 @@ void MainWindow::initMainSettingsController() {
     _mainSettingsController->connectListFilePushButton(ui->listFilePushButton);
 
     _mainSettingsController->connectForcedFormatComboBox(ui->forcedFormatComboBox);
+
+    _mainSettingsController->connectImageQualitySlider(ui->imageQualitySlider);
+    _mainSettingsController->connectImageQualitySpinBox(ui->imageQualitySpinBox);
 }
 
 void MainWindow::initImageRecordsController() {

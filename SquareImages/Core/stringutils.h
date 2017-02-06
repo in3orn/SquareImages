@@ -9,7 +9,11 @@ protected:
     StringUtils();
 
 public:
-    static QString normalize(const QString &string);
+    static QString normalizeName(const QString &string);
+
+    static QString normalizePath(const QString &string);
+
+    static QString replaceSpecialCharacters(const QString &string);
 
     static QString removeSpecialCharacters(const QString &string);
 

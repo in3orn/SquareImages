@@ -7,8 +7,28 @@ StringUtils::StringUtils()
 
 }
 
-QString StringUtils::normalize(const QString &string) {
-    QString result = string.trimmed();
+QString StringUtils::normalizeName(const QString &string) {
+    QString result = replaceSpecialCharacters(string);
+
+    result.remove(QRegExp("[^a-zA-Z\\d+-.]"));
+
+    result.replace(QRegularExpression("(-)\\1+"), "-");
+
+    return result.toLower();
+}
+
+QString StringUtils::normalizePath(const QString &string) {
+    QString result = replaceSpecialCharacters(string);
+
+    result.remove(QRegExp("[^a-zA-Z\\d+-/]"));
+
+    result.replace(QRegularExpression("(-)\\1+"), "-");
+
+    return result.toLower();
+}
+
+QString StringUtils::replaceSpecialCharacters(const QString &string) {
+    QString result = string;
 
     result.replace(QRegularExpression("[&\\s]"), "-");
 
@@ -37,14 +57,6 @@ QString StringUtils::normalize(const QString &string) {
     result.replace(QRegularExpression("[ùúûü]"), "u");
     result.replace(QRegularExpression("[ýÿ]"), "y");
     result.replace(QRegularExpression("[źż]"), "z");
-
-    result.remove(QRegExp("[^a-zA-Z\\d+-/]"));
-
-    while(result.contains("--")) {
-        result.replace("--", "-");
-    }
-
-    result = result.toLower();
 
     return result;
 }

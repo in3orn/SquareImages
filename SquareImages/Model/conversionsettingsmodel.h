@@ -24,6 +24,9 @@ class ConversionSettingsModel : public QObject
     Q_PROPERTY(int alphaTolerance READ getAlphaTolerance WRITE setAlphaTolerance NOTIFY alphaToleranceChanged)
     Q_PROPERTY(int colorTolerance READ getColorTolerance WRITE setColorTolerance NOTIFY colorToleranceChanged)
 
+    Q_PROPERTY(int maxScaleValue READ getMaxScaleValue WRITE setMaxScaleValue NOTIFY maxScaleValueChanged)
+    Q_PROPERTY(int minScaleValue READ getMinScaleValue WRITE setMinScaleValue NOTIFY minScaleValueChanged)
+
     Q_PROPERTY(bool clearColor READ isClearColor WRITE setClearColor NOTIFY clearColorChanged)
 
     Q_PROPERTY(QColor backgroundColor READ getBackgroundColor WRITE setBackgroundColor NOTIFY backgroundColorChanged)
@@ -35,7 +38,8 @@ public:
     enum ConverterType {
         SquareImageConverter,
         CropImageConverter,
-        TextImageConverter
+        TextImageConverter,
+        ScaleImageConverter
     };
 
     static QStringList converterTypeNames;
@@ -68,12 +72,39 @@ private:
     static QStringList initVerticalAlignmentNames();
 
 public:
+    enum MaxScaleStrategy {
+        MaxScaleNone,
+        MaxScaleWidth,
+        MaxScaleHeight
+    };
+
+    static QStringList maxScaleStrategyNames;
+
+private:
+    static QStringList initMaxScaleStrategyNames();
+
+public:
+    enum MinScaleStrategy {
+        MinScaleNone,
+        MinScaleWidth,
+        MinScaleHeight
+    };
+
+    static QStringList minScaleStrategyNames;
+
+private:
+    static QStringList initMinScaleStrategyNames();
+
+public:
     explicit ConversionSettingsModel(QObject *parent = 0);
 
     ConverterType getConverterType() const;
 
     HorizontalAlignment getHorizontalAlignment() const;
     VerticalAlignment getVerticalAlignment() const;
+
+    MaxScaleStrategy getMaxScaleStrategy() const;
+    MinScaleStrategy getMinScaleStrategy() const;
 
     int getXRatio() const;
     int getYRatio() const;
@@ -84,6 +115,9 @@ public:
 
     int getAlphaTolerance() const;
     int getColorTolerance() const;
+
+    int getMaxScaleValue() const;
+    int getMinScaleValue() const;
 
     bool isClearColor() const;
 
@@ -102,6 +136,12 @@ signals:
     void verticalAlignmentChanged(VerticalAlignment verticalAlignment);
     void verticalAlignmentChanged(int verticalAlignment);
 
+    void maxScaleStrategyChanged(MaxScaleStrategy maxScaleStrategy);
+    void maxScaleStrategyChanged(int maxScaleStrategy);
+
+    void minScaleStrategyChanged(MinScaleStrategy minScaleStrategy);
+    void minScaleStrategyChanged(int minScaleStrategy);
+
     void xRatioChanged(int xRatio);
     void yRatioChanged(int yRatio);
 
@@ -111,6 +151,9 @@ signals:
 
     void alphaToleranceChanged(int alphaTolerance);
     void colorToleranceChanged(int colorTolerance);
+
+    void maxScaleValueChanged(int maxScaleValue);
+    void minScaleValueChanged(int minScaleValue);
 
     void clearColorChanged(bool clearColor);
 
@@ -129,6 +172,12 @@ public slots:
     void setVerticalAlignment(VerticalAlignment verticalAlignment);
     void setVerticalAlignment(int verticalAlignment);
 
+    void setMaxScaleStrategy(MaxScaleStrategy maxScaleStrategy);
+    void setMaxScaleStrategy(int maxScaleStrategy);
+
+    void setMinScaleStrategy(MinScaleStrategy minScaleStrategy);
+    void setMinScaleStrategy(int minScaleStrategy);
+
     void setXRatio(int xRatio);
     void setYRatio(int yRatio);
 
@@ -138,6 +187,9 @@ public slots:
 
     void setAlphaTolerance(int alphaTolerance);
     void setColorTolerance(int colorTolerance);
+
+    void setMaxScaleValue(int maxScaleValue);
+    void setMinScaleValue(int minScaleValue);
 
     void setClearColor(bool clearColor);
 
@@ -152,6 +204,9 @@ private:
     HorizontalAlignment _horizontalAlignment;
     VerticalAlignment _verticalAlignment;
 
+    MaxScaleStrategy _maxScaleStrategy;
+    MinScaleStrategy _minScaleStrategy;
+
     int _xRatio;
     int _yRatio;
 
@@ -161,6 +216,9 @@ private:
 
     int _alphaTolerance;
     int _colorTolerance;
+
+    int _maxScaleValue;
+    int _minScaleValue;
 
     bool _clearColor;
 

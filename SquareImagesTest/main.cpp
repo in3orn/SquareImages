@@ -6,6 +6,7 @@
 
 #include "cropimageconvertertest.h"
 #include "squareimageconvertertest.h"
+#include "scaleimageconvertertest.h"
 
 #include "toptextimageconvertertest.h"
 #include "midtextimageconvertertest.h"
@@ -30,9 +31,6 @@ int main(int argc, char *argv[])
     CropImageConverterTest cropImageConverterTest;
     status |= QTest::qExec(&cropImageConverterTest);
 
-    SquareImageConverterTest squareImageConverterTest;
-    status |= QTest::qExec(&squareImageConverterTest);
-
     TopTextImageConverterTest topTextImageConverterTest;
     status |= QTest::qExec(&topTextImageConverterTest);
 
@@ -41,6 +39,12 @@ int main(int argc, char *argv[])
 
     BottomTextImageConverterTest bottomTextImageConverterTest;
     status |= QTest::qExec(&bottomTextImageConverterTest);
+
+    SquareImageConverterTest squareImageConverterTest;
+    status |= QTest::qExec(&squareImageConverterTest);
+
+    ScaleImageConverterTest scaleImageConverterTest;
+    status |= QTest::qExec(&scaleImageConverterTest);
 
     return status;
 }

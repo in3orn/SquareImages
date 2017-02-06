@@ -16,7 +16,7 @@ FileRecord TopProductFileRecordDecryptor::prepareFileRecord(const QStringList &f
     {
         result.inputFilePath = StringUtils::removeFileName(_fileRecordSettingsModel.getSourceFile());
         result.inputFileName = StringUtils::getFileName(_fileRecordSettingsModel.getSourceFile());
-        result.outputFileName = StringUtils::normalize(result.inputFileName);
+        result.outputFileName = StringUtils::normalizeName(result.inputFileName);
 
         result = replaceFormat(result);
     }

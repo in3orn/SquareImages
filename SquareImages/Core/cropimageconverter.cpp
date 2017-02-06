@@ -3,31 +3,22 @@
 #include "imageutils.h"
 
 CropImageConverter::CropImageConverter(ConversionSettingsModel &conversionSettingsModel, MainSettingsModel &fileSettingsModel) :
-    _conversionSettingsModel(conversionSettingsModel),
-    _fileSettingsModel(fileSettingsModel)
+    ScaleImageConverter(conversionSettingsModel, fileSettingsModel)
 {
 
 }
 
 
 
-QImage CropImageConverter::convert(const QImage &image, const FileRecord &/* fileRecord */)
+QImage CropImageConverter::fillImage(const QImage &image, const QImage &source, const FileRecord &/* fileRecord */) const
 {
-    QImage::Format format = ImageUtils::getOutputFormat(_fileSettingsModel.getForcedFormat(), image.format());
-    QSize size = getNewImageSize(image.size());
+    QImage result(image);
 
-    QImage newImage(size, format);
+    QPoint topLeft = getTopLeft(source, image.size());
 
-    QPoint topLeft = getTopLeft(image, size);
-    newImage = ImageUtils::insertCroppedImage(newImage, image, topLeft);
-    if(_conversionSettingsModel.isClearColor()) {
-        newImage = ImageUtils::removeColor(newImage,
-                                           _conversionSettingsModel.getBackgroundColor(),
-                                           _conversionSettingsModel.getColorTolerance(),
-                                           _conversionSettingsModel.getAlphaTolerance());
-    }
+    result = ImageUtils::insertCroppedImage(result, source, topLeft);
 
-    return newImage;
+    return result;
 }
 
 QSize CropImageConverter::getNewImageSize(const QSize &size) const {

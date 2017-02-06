@@ -7,6 +7,7 @@ QStringList ConversionSettingsModel::initConverterTypeNames()
     names << tr("Powiększający");
     names << tr("Kadrujący");
     names << tr("Tekstowy");
+    names << tr("Skalujący");
 
     return names;
 }
@@ -39,6 +40,32 @@ QStringList ConversionSettingsModel::initVerticalAlignmentNames()
 
 QStringList ConversionSettingsModel::verticalAlignmentNames = ConversionSettingsModel::initVerticalAlignmentNames();
 
+QStringList ConversionSettingsModel::initMaxScaleStrategyNames()
+{
+    QStringList names;
+
+    names << tr("Brak");
+    names << tr("Szerokość");
+    names << tr("Wysokość");
+
+    return names;
+}
+
+QStringList ConversionSettingsModel::maxScaleStrategyNames = ConversionSettingsModel::initMaxScaleStrategyNames();
+
+QStringList ConversionSettingsModel::initMinScaleStrategyNames()
+{
+    QStringList names;
+
+    names << tr("Brak");
+    names << tr("Szerokość");
+    names << tr("Wysokość");
+
+    return names;
+}
+
+QStringList ConversionSettingsModel::minScaleStrategyNames = ConversionSettingsModel::initMinScaleStrategyNames();
+
 
 
 ConversionSettingsModel::ConversionSettingsModel(QObject *parent) : QObject(parent),
@@ -46,6 +73,9 @@ ConversionSettingsModel::ConversionSettingsModel(QObject *parent) : QObject(pare
 
     _horizontalAlignment(Left),
     _verticalAlignment(Top),
+
+    _maxScaleStrategy(MaxScaleNone),
+    _minScaleStrategy(MinScaleNone),
 
     _xRatio(1),
     _yRatio(1),
@@ -56,6 +86,9 @@ ConversionSettingsModel::ConversionSettingsModel(QObject *parent) : QObject(pare
 
     _alphaTolerance(10),
     _colorTolerance(10),
+
+    _maxScaleValue(600),
+    _minScaleValue(600),
 
     _clearColor(false),
 
@@ -81,6 +114,14 @@ ConversionSettingsModel::VerticalAlignment ConversionSettingsModel::getVerticalA
     return _verticalAlignment;
 }
 
+ConversionSettingsModel::MaxScaleStrategy ConversionSettingsModel::getMaxScaleStrategy() const {
+    return _maxScaleStrategy;
+}
+
+ConversionSettingsModel::MinScaleStrategy ConversionSettingsModel::getMinScaleStrategy() const {
+    return _minScaleStrategy;
+}
+
 int ConversionSettingsModel::getXRatio() const {
     return _xRatio;
 }
@@ -103,6 +144,14 @@ int ConversionSettingsModel::getAlphaTolerance() const {
 
 int ConversionSettingsModel::getColorTolerance() const {
     return _colorTolerance;
+}
+
+int ConversionSettingsModel::getMaxScaleValue() const {
+    return _maxScaleValue;
+}
+
+int ConversionSettingsModel::getMinScaleValue() const {
+    return _minScaleValue;
 }
 
 bool ConversionSettingsModel::isClearColor() const {
@@ -159,6 +208,30 @@ void ConversionSettingsModel::setVerticalAlignment(int verticalAlignment) {
     setVerticalAlignment(static_cast<VerticalAlignment>(verticalAlignment));
 }
 
+void ConversionSettingsModel::setMaxScaleStrategy(MaxScaleStrategy maxScaleStrategy) {
+    if(_maxScaleStrategy != maxScaleStrategy) {
+        _maxScaleStrategy = maxScaleStrategy;
+        emit maxScaleStrategyChanged(static_cast<int>(_maxScaleStrategy));
+        emit maxScaleStrategyChanged(_maxScaleStrategy);
+    }
+}
+
+void ConversionSettingsModel::setMaxScaleStrategy(int maxScaleStrategy) {
+    setMaxScaleStrategy(static_cast<MaxScaleStrategy>(maxScaleStrategy));
+}
+
+void ConversionSettingsModel::setMinScaleStrategy(MinScaleStrategy minScaleStrategy) {
+    if(_minScaleStrategy != minScaleStrategy) {
+        _minScaleStrategy = minScaleStrategy;
+        emit minScaleStrategyChanged(static_cast<int>(_minScaleStrategy));
+        emit minScaleStrategyChanged(_minScaleStrategy);
+    }
+}
+
+void ConversionSettingsModel::setMinScaleStrategy(int minScaleStrategy) {
+    setMinScaleStrategy(static_cast<MinScaleStrategy>(minScaleStrategy));
+}
+
 void ConversionSettingsModel::setXRatio(int xRatio) {
     if(_xRatio != xRatio) {
         _xRatio = xRatio;
@@ -198,6 +271,20 @@ void ConversionSettingsModel::setColorTolerance(int colorTolerance) {
     if(_colorTolerance != colorTolerance) {
         _colorTolerance = colorTolerance;
         emit colorToleranceChanged(_colorTolerance);
+    }
+}
+
+void ConversionSettingsModel::setMaxScaleValue(int maxScaleValue) {
+    if(_maxScaleValue != maxScaleValue) {
+        _maxScaleValue = maxScaleValue;
+        emit maxScaleValueChanged(_maxScaleValue);
+    }
+}
+
+void ConversionSettingsModel::setMinScaleValue(int minScaleValue) {
+    if(_minScaleValue != minScaleValue) {
+        _minScaleValue = minScaleValue;
+        emit minScaleValueChanged(_minScaleValue);
     }
 }
 

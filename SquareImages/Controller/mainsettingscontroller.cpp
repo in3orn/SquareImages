@@ -2,6 +2,13 @@
 
 #include <QFileDialog>
 
+#include <QCheckBox>
+#include <QComboBox>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QSpinBox>
+#include <QSlider>
+
 MainSettingsController::MainSettingsController(QObject *parent) : QObject(parent)
 {
 
@@ -38,8 +45,10 @@ void MainSettingsController::connectConversionType(QComboBox *widget) {
     _conversionTypeComboBox->setCurrentIndex(_mainSettingsModel->getConversionType());
     refreshConversionTypeComboBox();
 
-    connect(widget, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), _mainSettingsModel, &MainSettingsModel::setConversionType);
-    connect(_mainSettingsModel, &MainSettingsModel::conversionTypeChanged, widget, &QComboBox::setCurrentIndex);
+    connect(widget, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+            _mainSettingsModel, static_cast<void(MainSettingsModel::*)(int)>(&MainSettingsModel::setConversionType));
+    connect(_mainSettingsModel, static_cast<void(MainSettingsModel::*)(int)>(&MainSettingsModel::conversionTypeChanged),
+            widget, &QComboBox::setCurrentIndex);
 
     connect(widget, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &MainSettingsController::refreshWidgets);
 }
@@ -138,6 +147,23 @@ void MainSettingsController::connectForcedFormatComboBox(QComboBox *widget) {
             widget, &QComboBox::setCurrentIndex);
 }
 
+void MainSettingsController::connectImageQualitySlider(QSlider *widget) {
+    _imageQualitySlider = widget;
+    _imageQualitySlider->setValue(_mainSettingsModel->getImageQuality());
+    refreshImageQualitySlider();
+
+    connect(widget, &QSlider::valueChanged, _mainSettingsModel, &MainSettingsModel::setImageQuality);
+    connect(_mainSettingsModel, &MainSettingsModel::imageQualityChanged, widget, &QSlider::setValue);
+}
+
+void MainSettingsController::connectImageQualitySpinBox(QSpinBox *widget) {
+    _imageQualitySpinBox = widget;
+    _imageQualitySpinBox->setValue(_mainSettingsModel->getImageQuality());
+    refreshImageQualitySpinBox();
+
+    connect(widget, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), _mainSettingsModel, &MainSettingsModel::setImageQuality);
+    connect(_mainSettingsModel, &MainSettingsModel::imageQualityChanged, widget, &QSpinBox::setValue);
+}
 
 
 
@@ -159,7 +185,7 @@ void MainSettingsController::selectOutputPath() {
 void MainSettingsController::selectSourceFile() {
     QFileDialog dialog;
     dialog.setFileMode(QFileDialog::ExistingFile);
-    dialog.setNameFilter(tr("Images (*.png; *.jpg)"));
+    dialog.setNameFilter(tr("Images (*.png; *.jpg; *.jpeg; *.gif; *.tif; *.tiff; *.bmp)"));
 
     int result = dialog.exec();
 
@@ -220,6 +246,9 @@ void MainSettingsController::refreshWidgets() {
     refreshReplaceExisting();
 
     refreshForcedFormatComboBox();
+
+    refreshImageQualitySlider();
+    refreshImageQualitySpinBox();
 }
 
 
@@ -286,4 +315,12 @@ void MainSettingsController::refreshReplaceExisting() {
 
 void MainSettingsController::refreshForcedFormatComboBox() {
     _forcedFormatComboBox->setEnabled(!_conversionModel->isRunning());
+}
+
+void MainSettingsController::refreshImageQualitySlider() {
+    _imageQualitySlider->setEnabled(!_conversionModel->isRunning());
+}
+
+void MainSettingsController::refreshImageQualitySpinBox() {
+    _imageQualitySlider->setEnabled(!_conversionModel->isRunning());
 }

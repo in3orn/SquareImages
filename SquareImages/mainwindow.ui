@@ -120,14 +120,14 @@
            </property>
           </widget>
          </item>
-         <item row="13" column="1">
+         <item row="14" column="1">
           <widget class="QCheckBox" name="replaceExisting">
            <property name="text">
             <string>Zastąp już istniejące</string>
            </property>
           </widget>
          </item>
-         <item row="12" column="1">
+         <item row="13" column="1">
           <widget class="QCheckBox" name="checkSubdirs">
            <property name="text">
             <string>Sprawdzaj podkatalogi</string>
@@ -141,6 +141,34 @@
           <widget class="QLabel" name="forcedFormatLabel">
            <property name="text">
             <string>Wymuś format</string>
+           </property>
+          </widget>
+         </item>
+         <item row="12" column="1">
+          <layout class="QHBoxLayout" name="imageQualityLayout">
+           <item>
+            <widget class="QSlider" name="imageQualitySlider">
+             <property name="maximum">
+              <number>100</number>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="imageQualitySpinBox">
+             <property name="maximum">
+              <number>100</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="12" column="0">
+          <widget class="QLabel" name="imageQualityLabel">
+           <property name="text">
+            <string>Jakość obrazu</string>
            </property>
           </widget>
          </item>
@@ -163,14 +191,31 @@
          <item row="0" column="1">
           <widget class="QComboBox" name="converterTypeComboBox"/>
          </item>
-         <item row="1" column="0">
+         <item row="1" column="1">
+          <layout class="QHBoxLayout" name="maxScaleLayout">
+           <item>
+            <widget class="QComboBox" name="maxScaleStrategyComboBox"/>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="maxScaleValueSpinBox">
+             <property name="minimum">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <number>9999</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="3" column="0">
           <widget class="QLabel" name="ratioLabel">
            <property name="text">
             <string>Proporcje</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="1">
+         <item row="3" column="1">
           <layout class="QHBoxLayout" name="ratioLayout">
            <item>
             <widget class="QSpinBox" name="xRatio">
@@ -204,14 +249,14 @@
            </item>
           </layout>
          </item>
-         <item row="4" column="0">
+         <item row="6" column="0">
           <widget class="QLabel" name="marginLabel">
            <property name="text">
             <string>Marginesy (%)</string>
            </property>
           </widget>
          </item>
-         <item row="4" column="1">
+         <item row="6" column="1">
           <layout class="QHBoxLayout" name="marginLayout">
            <item>
             <widget class="QSlider" name="marginSlider">
@@ -238,14 +283,14 @@
            </item>
           </layout>
          </item>
-         <item row="6" column="0">
+         <item row="8" column="0">
           <widget class="QLabel" name="alphaToleranceLabel">
            <property name="text">
             <string>Tolerancja przezroczystości</string>
            </property>
           </widget>
          </item>
-         <item row="6" column="1">
+         <item row="8" column="1">
           <layout class="QHBoxLayout" name="alphaToleranceLayout">
            <item>
             <widget class="QSlider" name="alphaToleranceSlider">
@@ -266,14 +311,14 @@
            </item>
           </layout>
          </item>
-         <item row="8" column="0">
+         <item row="10" column="0">
           <widget class="QLabel" name="backgroundColorToleranceLabel">
            <property name="text">
             <string>Tolerancja koloru tła</string>
            </property>
           </widget>
          </item>
-         <item row="8" column="1">
+         <item row="10" column="1">
           <layout class="QHBoxLayout" name="backgroundColorToleranceLayout">
            <item>
             <widget class="QSlider" name="backgroundColorToleranceSlider">
@@ -294,14 +339,14 @@
            </item>
           </layout>
          </item>
-         <item row="9" column="0">
+         <item row="11" column="0">
           <widget class="QLabel" name="backgroundColorLabel">
            <property name="text">
             <string>Kolor tła</string>
            </property>
           </widget>
          </item>
-         <item row="9" column="1">
+         <item row="11" column="1">
           <layout class="QHBoxLayout" name="backgroundColorLayout">
            <item>
             <widget class="QGraphicsView" name="backgroundColorView">
@@ -343,34 +388,66 @@
            </item>
           </layout>
          </item>
-         <item row="11" column="1">
-          <widget class="QComboBox" name="horizontalAlignmentComboBox"/>
-         </item>
-         <item row="11" column="0">
-          <widget class="QLabel" name="horizontalAlignmentLabel">
-           <property name="text">
-            <string>Wyrównanie poziome</string>
-           </property>
-          </widget>
-         </item>
          <item row="12" column="1">
-          <widget class="QComboBox" name="verticalAlignmentComboBox"/>
-         </item>
-         <item row="12" column="0">
-          <widget class="QLabel" name="verticalAlignmentLabel">
-           <property name="text">
-            <string>Wyrównanie pionowe</string>
-           </property>
-          </widget>
-         </item>
-         <item row="10" column="1">
           <widget class="QCheckBox" name="clearColorCheckBox">
            <property name="text">
             <string>Szparuj zdjęcie</string>
            </property>
           </widget>
          </item>
+         <item row="13" column="0">
+          <widget class="QLabel" name="horizontalAlignmentLabel">
+           <property name="text">
+            <string>Wyrównanie poziome</string>
+           </property>
+          </widget>
+         </item>
+         <item row="13" column="1">
+          <widget class="QComboBox" name="horizontalAlignmentComboBox"/>
+         </item>
+         <item row="14" column="0">
+          <widget class="QLabel" name="verticalAlignmentLabel">
+           <property name="text">
+            <string>Wyrównanie pionowe</string>
+           </property>
+          </widget>
+         </item>
          <item row="14" column="1">
+          <widget class="QComboBox" name="verticalAlignmentComboBox"/>
+         </item>
+         <item row="15" column="0">
+          <widget class="QLabel" name="textSizeLabel">
+           <property name="text">
+            <string>Wielkość tekstu</string>
+           </property>
+          </widget>
+         </item>
+         <item row="15" column="1">
+          <layout class="QHBoxLayout" name="textSizeLayout">
+           <item>
+            <widget class="QSlider" name="textSizeSlider">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="textSizeSpinBox">
+             <property name="maximum">
+              <number>100</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="16" column="0">
+          <widget class="QLabel" name="textColorLabel">
+           <property name="text">
+            <string>Kolor tekstu</string>
+           </property>
+          </widget>
+         </item>
+         <item row="16" column="1">
           <layout class="QHBoxLayout" name="textColorLayout">
            <item>
             <widget class="QGraphicsView" name="textColorView">
@@ -403,14 +480,14 @@
            </item>
           </layout>
          </item>
-         <item row="14" column="0">
-          <widget class="QLabel" name="textColorLabel">
+         <item row="18" column="0">
+          <widget class="QLabel" name="textFontLabel">
            <property name="text">
-            <string>Kolor tekstu</string>
+            <string>Font</string>
            </property>
           </widget>
          </item>
-         <item row="16" column="1">
+         <item row="18" column="1">
           <layout class="QHBoxLayout" name="textFontLayout">
            <item>
             <widget class="QLineEdit" name="textFontLineEdit"/>
@@ -424,37 +501,36 @@
            </item>
           </layout>
          </item>
-         <item row="16" column="0">
-          <widget class="QLabel" name="textFontLabel">
+         <item row="1" column="0">
+          <widget class="QLabel" name="maxScaleLabel">
            <property name="text">
-            <string>Font</string>
+            <string>Maksymalny rozmiar</string>
            </property>
           </widget>
          </item>
-         <item row="13" column="0">
-          <widget class="QLabel" name="textSizeLabel">
-           <property name="text">
-            <string>Wielkość tekstu</string>
-           </property>
-          </widget>
-         </item>
-         <item row="13" column="1">
-          <layout class="QHBoxLayout" name="textSizeLayout">
+         <item row="2" column="1">
+          <layout class="QHBoxLayout" name="minScaleLayout">
            <item>
-            <widget class="QSlider" name="textSizeSlider">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
+            <widget class="QComboBox" name="minScaleStrategyComboBox"/>
            </item>
            <item>
-            <widget class="QSpinBox" name="textSizeSpinBox">
+            <widget class="QSpinBox" name="minScaleValueSpinBox">
+             <property name="minimum">
+              <number>1</number>
+             </property>
              <property name="maximum">
-              <number>100</number>
+              <number>9999</number>
              </property>
             </widget>
            </item>
           </layout>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="minScaleLabel">
+           <property name="text">
+            <string>Minimalny rozmiar</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>

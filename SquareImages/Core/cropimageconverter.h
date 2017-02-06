@@ -1,26 +1,19 @@
 #ifndef CROPIMAGECONVERTER_H
 #define CROPIMAGECONVERTER_H
 
-#include "imageconverter.h"
+#include "scaleimageconverter.h"
 
-#include "Model/conversionsettingsmodel.h"
-#include "Model/mainsettingsmodel.h"
-
-class CropImageConverter : public ImageConverter
+class CropImageConverter : public ScaleImageConverter
 {
 public:
     CropImageConverter(ConversionSettingsModel &conversionSettingsModel, MainSettingsModel &fileSettingsModel);
 
-    virtual QImage convert(const QImage &image, const FileRecord &fileRecord) Q_DECL_OVERRIDE;
-
 protected:
-    QSize getNewImageSize(const QSize &size) const;
+    virtual QImage fillImage(const QImage &image, const QImage &source, const FileRecord &fileRecord) const Q_DECL_OVERRIDE;
+
+    virtual QSize getNewImageSize(const QSize &size) const Q_DECL_OVERRIDE;
 
     QPoint getTopLeft(const QImage &image, const QSize &size) const;
-
-protected:
-    ConversionSettingsModel &_conversionSettingsModel;
-    MainSettingsModel &_fileSettingsModel;
 };
 
 #endif // CROPIMAGECONVERTER_H

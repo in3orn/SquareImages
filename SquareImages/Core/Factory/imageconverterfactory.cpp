@@ -8,6 +8,8 @@
 
 #include "../squareimageconverter.h"
 
+#include "../scaleimageconverter.h"
+
 ImageConverterFactory &ImageConverterFactory::getInstance() {
     static ImageConverterFactory factory;
     return factory;
@@ -20,10 +22,12 @@ ImageConverter *ImageConverterFactory::create(
     {
     case ConversionSettingsModel::CropImageConverter:
         return new CropImageConverter(conversionSettingsModel, fileSettingsModel);
+    case ConversionSettingsModel::SquareImageConverter:
+        return new SquareImageConverter(conversionSettingsModel, fileSettingsModel);
     case ConversionSettingsModel::TextImageConverter:
         return createTextImageConverter(conversionSettingsModel, fileSettingsModel);
     default:
-        return new SquareImageConverter(conversionSettingsModel, fileSettingsModel);
+        return new ScaleImageConverter(conversionSettingsModel, fileSettingsModel);
     }
 }
 

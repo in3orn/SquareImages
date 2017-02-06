@@ -3,13 +3,15 @@
 
 #include <QObject>
 
-#include <QCheckBox>
-#include <QComboBox>
-#include <QLineEdit>
-#include <QPushButton>
-
 #include "Model/conversionmodel.h"
 #include "Model/mainsettingsmodel.h"
+
+class QCheckBox;
+class QComboBox;
+class QLineEdit;
+class QPushButton;
+class QSpinBox;
+class QSlider;
 
 class MainSettingsController : public QObject
 {
@@ -42,6 +44,9 @@ public:
 
     void connectForcedFormatComboBox(QComboBox *widget);
 
+    void connectImageQualitySlider(QSlider *widget);
+    void connectImageQualitySpinBox(QSpinBox *widget);
+
 signals:
 
 public slots:
@@ -70,6 +75,9 @@ protected:
 
     void refreshForcedFormatComboBox();
 
+    void refreshImageQualitySlider();
+    void refreshImageQualitySpinBox();
+
 protected:
     ConversionModel *_conversionModel;
     MainSettingsModel *_mainSettingsModel;
@@ -90,6 +98,9 @@ protected:
     QPushButton *_listFilePushButton;
 
     QComboBox *_forcedFormatComboBox;
+
+    QSlider *_imageQualitySlider;
+    QSpinBox *_imageQualitySpinBox;
 };
 
 #endif // MAINSETTINGSCONTROLLER_H

@@ -53,7 +53,7 @@ FileRecord FileRecordDecryptor::prepareFileRecord(const QStringList &fields) con
 FileRecord FileRecordDecryptor::getVerifiedFileRecord(const FileRecord &fileRecord) const {
 
     QDir directory(fileRecord.inputFilePath);
-    QString fileName = StringUtils::normalize(fileRecord.inputFileName);
+    QString fileName = StringUtils::normalizeName(fileRecord.inputFileName);
     fileName = StringUtils::removeFileExtension(fileName);
 
     FileRecord result = getFileRecord(directory, fileName);
@@ -93,6 +93,9 @@ FileRecord FileRecordDecryptor::getFileRecord(const QDir &directory, const QStri
 
     QFileInfoList fileInfos = directory.entryInfoList(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot);
 
+    QString bearSearchedFileName = searchedFileName;
+    bearSearchedFileName.remove("-");
+
     for(int i = 0; i < fileInfos.size(); i++) {
         QFileInfo fileInfo = fileInfos[i];
 
@@ -102,11 +105,11 @@ FileRecord FileRecordDecryptor::getFileRecord(const QDir &directory, const QStri
                 return result;
             }
         } else {
-            QString normalizedName = StringUtils::normalize(fileInfo.fileName());
+            QString normalizedName = StringUtils::normalizeName(fileInfo.fileName());
             QString checkName = StringUtils::removeFileExtension(normalizedName);
 
-            if(searchedFileName == checkName) {
-                return initFileRecord(fileInfo, normalizedName);
+            if(searchedFileName == checkName || bearSearchedFileName == checkName) {
+                return initFileRecord(fileInfo, searchedFileName + "." + StringUtils::getFileExtension(normalizedName));
             }
         }
     }
@@ -114,12 +117,12 @@ FileRecord FileRecordDecryptor::getFileRecord(const QDir &directory, const QStri
     return FileRecord();
 }
 
-FileRecord FileRecordDecryptor::initFileRecord(const QFileInfo &fileInfo, const QString &normalizedName) const {
+FileRecord FileRecordDecryptor::initFileRecord(const QFileInfo &fileInfo, const QString &outputFileName) const {
     FileRecord result;
 
     result.inputFilePath = StringUtils::removeFileName(fileInfo.filePath());
     result.inputFileName = fileInfo.fileName();
-    result.outputFileName = normalizedName;
+    result.outputFileName = outputFileName;
 
     return result;
 }

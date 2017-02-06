@@ -33,7 +33,7 @@ void DirectoryFileRecordsCreator::processDirectory(const QDir &directory) {
             processDirectory(fileInfo.filePath());
         } else {
             QString extension = StringUtils::getFileExtension(fileInfo.fileName());
-            if(extension == "png" || extension == "jpg" || extension == "jpeg" || extension == "gif") {
+            if(extension == "png" || extension == "jpg" || extension == "jpeg" || extension == "gif" || extension == "tif" || extension == "tiff" || extension == "bmp") {
                 processFile(fileInfo);
             }
         }
@@ -56,7 +56,7 @@ void DirectoryFileRecordsCreator::processFile(const QFileInfo &fileInfo) {
     fileRecord.inputFilePath = _fileSettingsModel.getSourcePath() + extPath;
     fileRecord.inputFileName = fileInfo.fileName();
     fileRecord.outputFilePath = _fileSettingsModel.getOutputPath() + extPath;
-    fileRecord.outputFileName = StringUtils::normalize(fileRecord.inputFileName);
+    fileRecord.outputFileName = StringUtils::normalizeName(fileRecord.inputFileName);
 
     fileRecord = replaceFormat(fileRecord);
 

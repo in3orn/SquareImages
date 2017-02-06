@@ -33,6 +33,12 @@ public:
     void connectHorizontalAlignmentComboBox(QComboBox *widget);
     void connectVerticalAlignmentComboBox(QComboBox *widget);
 
+    void connectMaxScaleStrategyComboBox(QComboBox *widget);
+    void connectMaxScaleValueSpinBox(QSpinBox *widget);
+
+    void connectMinScaleStrategyComboBox(QComboBox *widget);
+    void connectMinScaleValueSpinBox(QSpinBox *widget);
+
     void connectXRatioSpinBox(QSpinBox *widget);
     void connectYRatioSpinBox(QSpinBox *widget);
 
@@ -80,6 +86,12 @@ protected:
     void refreshHorizontalAlignmentComboBox();
     void refreshVerticalAlignmentComboBox();
 
+    void refreshMaxScaleStrategyComboBox();
+    void refreshMaxScaleValueSpinBox();
+
+    void refreshMinScaleStrategyComboBox();
+    void refreshMinScaleValueSpinBox();
+
     void refreshXRatioSpinBox();
     void refreshYRatioSpinBox();
 
@@ -115,6 +127,12 @@ private:
 
     QComboBox *_horizontalAlignmentComboBox;
     QComboBox *_verticalAlignmentComboBox;
+
+    QComboBox *_maxScaleStrategyComboBox;
+    QSpinBox *_maxScaleValueSpinBox;
+
+    QComboBox *_minScaleStrategyComboBox;
+    QSpinBox *_minScaleValueSpinBox;
 
     QSpinBox *_xRatioSpinBox;
     QSpinBox *_yRatioSpinBox;

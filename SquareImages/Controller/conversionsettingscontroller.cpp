@@ -87,6 +87,53 @@ void ConversionSettingsController::connectVerticalAlignmentComboBox(QComboBox *w
             widget, &QComboBox::setCurrentIndex);
 }
 
+void ConversionSettingsController::connectMaxScaleStrategyComboBox(QComboBox *widget) {
+    _maxScaleStrategyComboBox = widget;
+    _maxScaleStrategyComboBox->setCurrentIndex(_conversionSettingsModel->getMaxScaleStrategy());
+    refreshMaxScaleStrategyComboBox();
+
+    connect(widget, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+            _conversionSettingsModel, static_cast<void(ConversionSettingsModel::*)(int)>(&ConversionSettingsModel::setMaxScaleStrategy));
+
+    connect(_conversionSettingsModel, static_cast<void(ConversionSettingsModel::*)(int)>(&ConversionSettingsModel::maxScaleStrategyChanged),
+            widget, &QComboBox::setCurrentIndex);
+
+    connect(widget, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+            this, &ConversionSettingsController::refreshMaxScaleValueSpinBox);
+}
+
+void ConversionSettingsController::connectMaxScaleValueSpinBox(QSpinBox *widget) {
+    _maxScaleValueSpinBox = widget;
+    _maxScaleValueSpinBox->setValue(_conversionSettingsModel->getMaxScaleValue());
+    refreshMaxScaleValueSpinBox();
+
+    connect(widget, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), _conversionSettingsModel, &ConversionSettingsModel::setMaxScaleValue);
+    connect(_conversionSettingsModel, &ConversionSettingsModel::maxScaleValueChanged, widget, &QSpinBox::setValue);
+}
+
+void ConversionSettingsController::connectMinScaleStrategyComboBox(QComboBox *widget) {
+    _minScaleStrategyComboBox = widget;
+    _minScaleStrategyComboBox->setCurrentIndex(_conversionSettingsModel->getMinScaleStrategy());
+    refreshMinScaleStrategyComboBox();
+
+    connect(widget, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+            _conversionSettingsModel, static_cast<void(ConversionSettingsModel::*)(int)>(&ConversionSettingsModel::setMinScaleStrategy));
+
+    connect(_conversionSettingsModel, static_cast<void(ConversionSettingsModel::*)(int)>(&ConversionSettingsModel::minScaleStrategyChanged),
+            widget, &QComboBox::setCurrentIndex);
+
+    connect(widget, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+            this, &ConversionSettingsController::refreshMinScaleValueSpinBox);
+}
+
+void ConversionSettingsController::connectMinScaleValueSpinBox(QSpinBox *widget) {
+    _minScaleValueSpinBox = widget;
+    _minScaleValueSpinBox->setValue(_conversionSettingsModel->getMinScaleValue());
+    refreshMinScaleValueSpinBox();
+
+    connect(widget, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), _conversionSettingsModel, &ConversionSettingsModel::setMinScaleValue);
+    connect(_conversionSettingsModel, &ConversionSettingsModel::minScaleValueChanged, widget, &QSpinBox::setValue);
+}
 
 void ConversionSettingsController::connectXRatioSpinBox(QSpinBox *widget) {
     _xRatioSpinBox = widget;
@@ -292,6 +339,12 @@ void ConversionSettingsController::refreshWidgets() {
     refreshHorizontalAlignmentComboBox();
     refreshVerticalAlignmentComboBox();
 
+    refreshMaxScaleStrategyComboBox();
+    refreshMaxScaleValueSpinBox();
+
+    refreshMinScaleStrategyComboBox();
+    refreshMinScaleValueSpinBox();
+
     refreshXRatioSpinBox();
     refreshYRatioSpinBox();
 
@@ -330,18 +383,38 @@ void ConversionSettingsController::refreshHorizontalAlignmentComboBox() {
 
 void ConversionSettingsController::refreshVerticalAlignmentComboBox() {
     _verticalAlignmentComboBox->setEnabled(!_conversionModel->isRunning() &&
-                                           _conversionSettingsModel->getConverterType() != ConversionSettingsModel::SquareImageConverter);
+                                           _conversionSettingsModel->getConverterType() != ConversionSettingsModel::SquareImageConverter &&
+                                           _conversionSettingsModel->getConverterType() != ConversionSettingsModel::ScaleImageConverter);
 }
 
+void ConversionSettingsController::refreshMaxScaleStrategyComboBox() {
+    _maxScaleStrategyComboBox->setEnabled(!_conversionModel->isRunning());
+}
+
+void ConversionSettingsController::refreshMaxScaleValueSpinBox() {
+    _maxScaleValueSpinBox->setEnabled(!_conversionModel->isRunning() &&
+                                      _conversionSettingsModel->getMaxScaleStrategy() != ConversionSettingsModel::MaxScaleNone);
+}
+
+void ConversionSettingsController::refreshMinScaleStrategyComboBox() {
+    _minScaleStrategyComboBox->setEnabled(!_conversionModel->isRunning());
+}
+
+void ConversionSettingsController::refreshMinScaleValueSpinBox() {
+    _minScaleValueSpinBox->setEnabled(!_conversionModel->isRunning() &&
+                                      _conversionSettingsModel->getMinScaleStrategy() != ConversionSettingsModel::MinScaleNone);
+}
 
 void ConversionSettingsController::refreshXRatioSpinBox() {
     _xRatioSpinBox->setEnabled(!_conversionModel->isRunning() &&
-                               _conversionSettingsModel->getConverterType() != ConversionSettingsModel::TextImageConverter);
+                               _conversionSettingsModel->getConverterType() != ConversionSettingsModel::TextImageConverter &&
+                               _conversionSettingsModel->getConverterType() != ConversionSettingsModel::ScaleImageConverter);
 }
 
 void ConversionSettingsController::refreshYRatioSpinBox() {
     _yRatioSpinBox->setEnabled(!_conversionModel->isRunning() &&
-                               _conversionSettingsModel->getConverterType() != ConversionSettingsModel::TextImageConverter);
+                               _conversionSettingsModel->getConverterType() != ConversionSettingsModel::TextImageConverter &&
+                               _conversionSettingsModel->getConverterType() != ConversionSettingsModel::ScaleImageConverter);
 }
 
 

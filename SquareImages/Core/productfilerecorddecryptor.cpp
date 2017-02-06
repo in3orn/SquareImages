@@ -43,6 +43,6 @@ FileRecord ProductFileRecordDecryptor::prepareFileRecord(const QStringList &fiel
 
 
 QString ProductFileRecordDecryptor::getOutputFileRecordExtension(const QStringList &fields) const {
-    QString brandName = StringUtils::normalize(fields[1]); //TODO performance - can be stored as field (only 2nd ver.)
+    QString brandName = StringUtils::normalizeName(fields[1]); //TODO performance - can be stored as field (only 2nd ver.)
     return "/" + brandName.left(1) + "/" + brandName;
 }

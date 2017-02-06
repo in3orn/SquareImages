@@ -2,66 +2,132 @@
 
 #include <QPainter>
 
-QImage ImageUtils::insertImage(QImage &image, const QImage &inserted, const QPoint &topLeft)
+QImage ImageUtils::insertImage(const QImage &image, const QImage &inserted)
 {
+    QImage result(image);
+
     for(int x = 0; x < inserted.width(); x++) {
         for(int y = 0; y < inserted.height(); y++) {
             QColor color = inserted.pixelColor(x, y);
-            image.setPixelColor(topLeft.x() + x, topLeft.y() + y, color);
+            result.setPixelColor(x, y, color);
         }
     }
 
-    return image;
+    return result;
 }
 
-QImage ImageUtils::insertImageRegion(QImage &image, const QImage &inserted, const QRect &region, const QPoint &topLeft)
+QImage ImageUtils::insertImage(const QImage &image, const QImage &inserted, const QPoint &topLeft)
 {
+    QImage result(image);
+
+    for(int x = 0; x < inserted.width(); x++) {
+        for(int y = 0; y < inserted.height(); y++) {
+            QColor color = inserted.pixelColor(x, y);
+            result.setPixelColor(topLeft.x() + x, topLeft.y() + y, color);
+        }
+    }
+
+    return result;
+}
+
+QImage ImageUtils::insertImageRegion(const QImage &image, const QImage &inserted, const QRect &region, const QPoint &topLeft)
+{
+    QImage result(image);
+
     for(int x = 0; x < region.width(); x++) {
         for(int y = 0; y < region.height(); y++) {
             QColor color = inserted.pixelColor(region.x() + x, region.y() + y);
-            image.setPixelColor(topLeft.x() + x, topLeft.y() + y, color);
+            result.setPixelColor(topLeft.x() + x, topLeft.y() + y, color);
         }
     }
 
-    return image;
+    return result;
 }
 
-QImage ImageUtils::insertCroppedImage(QImage &image, const QImage &inserted, const QPoint &topLeft)
+QImage ImageUtils::insertCroppedImage(const QImage &image, const QImage &inserted, const QPoint &topLeft)
 {
+    QImage result(image);
+
     for(int x = 0; x < image.width(); x++) {
         for(int y = 0; y < image.height(); y++) {
             QColor color = inserted.pixelColor(topLeft.x() + x, topLeft.y() + y);
-            image.setPixelColor(x, y, color);
+            result.setPixelColor(x, y, color);
         }
     }
 
-    return image;
+    return result;
 }
 
-QImage ImageUtils::insertText(QImage &image, const PaintTextSettings &settings, const QString &text)
+QImage ImageUtils::insertText(const QImage &image, const PaintTextSettings &settings, const QString &text)
 {
-    QPainter painter(&image);
+    QImage result(image);
+
+    QPainter painter(&result);
     painter.setPen(settings.pen);
     painter.setFont(settings.font);
     painter.drawText(settings.rect, settings.alignment, text);
 
-    return image;
+    return result;
 }
 
-QImage ImageUtils::removeColor(QImage &image, const QColor &color, int colorTolerance, int alphaTolerance)
+QImage ImageUtils::removeColor(const QImage &image, const QColor &color, int colorTolerance, int alphaTolerance)
 {
+    QImage result(image);
+
     QColor backgroundColor = getBackgroundColor(image.format());
 
     for(int x = 0; x < image.width(); x++) {
         for(int y = 0; y < image.height(); y++) {
             QColor imageColor = image.pixelColor(x, y);
             if(isBackgroundColor(imageColor, color, colorTolerance, alphaTolerance)) {
-                image.setPixelColor(x, y, backgroundColor);
+                result.setPixelColor(x, y, backgroundColor);
             }
         }
     }
 
-    return image;
+    return result;
+}
+
+QImage ImageUtils::getMaxScaledImage(const QImage &image, ConversionSettingsModel::MaxScaleStrategy strategy, int maxValue)
+{
+    QImage result(image);
+
+    switch(strategy)
+    {
+    case ConversionSettingsModel::MaxScaleWidth:
+        if(image.width() > maxValue) {
+            result = image.scaledToWidth(maxValue, Qt::SmoothTransformation);
+        }
+        break;
+    case ConversionSettingsModel::MaxScaleHeight:
+        if(image.height() > maxValue) {
+            result = image.scaledToHeight(maxValue, Qt::SmoothTransformation);
+        }
+        break;
+    }
+
+    return result;
+}
+
+QImage ImageUtils::getMinScaledImage(const QImage &image, ConversionSettingsModel::MinScaleStrategy strategy, int minValue)
+{
+    QImage result(image);
+
+    switch(strategy)
+    {
+    case ConversionSettingsModel::MinScaleWidth:
+        if(image.width() < minValue) {
+            result = image.scaledToWidth(minValue, Qt::SmoothTransformation);
+        }
+        break;
+    case ConversionSettingsModel::MinScaleHeight:
+        if(image.height() < minValue) {
+            result = image.scaledToHeight(minValue, Qt::SmoothTransformation);
+        }
+        break;
+    }
+
+    return result;
 }
 
 QImage::Format ImageUtils::getOutputFormat(MainSettingsModel::ForcedFormat forcedFormat, QImage::Format defaultFormat)

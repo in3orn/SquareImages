@@ -70,9 +70,9 @@ void ProductFileRecordDecryptorTest::decryptFileRecord_data() {
             << "Fridge 1;Panasonic"
             << false
             << "E:/QtApps/SquareImages/TestData/Input/ProductFileRecordDecryptor"
-            << "Fridge 1.png"
+            << "Fridge 1.jpeg"
             << "E:/QtApps/SquareImages/TestData/Output/ProductFileRecordDecryptor/p/panasonic"
-            << "fridge-1.png"
+            << "fridge-1.jpeg"
             << "";
 
     QTest::newRow("Product: Fridge 1, Krüger & Mätz")
@@ -81,9 +81,9 @@ void ProductFileRecordDecryptorTest::decryptFileRecord_data() {
             << "Fridge 1;Krüger & Mätz"
             << false
             << "E:/QtApps/SquareImages/TestData/Input/ProductFileRecordDecryptor"
-            << "Fridge 1.png"
+            << "Fridge 1.jpeg"
             << "E:/QtApps/SquareImages/TestData/Output/ProductFileRecordDecryptor/k/kruger-matz"
-            << "fridge-1.png"
+            << "fridge-1.jpeg"
             << "";
 
     QTest::newRow("Product: Fridgę-1, Panasonic")
@@ -92,9 +92,9 @@ void ProductFileRecordDecryptorTest::decryptFileRecord_data() {
             << "Fridgę-1;Panasonic"
             << false
             << "E:/QtApps/SquareImages/TestData/Input/ProductFileRecordDecryptor"
-            << "Fridge 1.png"
+            << "Fridge 1.jpeg"
             << "E:/QtApps/SquareImages/TestData/Output/ProductFileRecordDecryptor/p/panasonic"
-            << "fridge-1.png"
+            << "fridge-1.jpeg"
             << "";
 
     QTest::newRow("Product: Fridge 2, Krüger & Mätz")
@@ -103,9 +103,9 @@ void ProductFileRecordDecryptorTest::decryptFileRecord_data() {
             << "Fridge 2;Krüger & Mätz"
             << false
             << "E:/QtApps/SquareImages/TestData/Input/ProductFileRecordDecryptor"
-            << "Fridge 2.jpg"
+            << "Fridge 2.tif"
             << "E:/QtApps/SquareImages/TestData/Output/ProductFileRecordDecryptor/k/kruger-matz"
-            << "fridge-2.jpg"
+            << "fridge-2.tif"
             << "";
 
     QTest::newRow("Product: Fridge 3, Krüger & Mätz")
@@ -136,9 +136,42 @@ void ProductFileRecordDecryptorTest::decryptFileRecord_data() {
             << "Fridge 4;Panasonic"
             << true
             << "E:/QtApps/SquareImages/TestData/Input/ProductFileRecordDecryptor/Subfolder"
-            << "Fridge 4.png"
+            << "Fridge4.png"
             << "E:/QtApps/SquareImages/TestData/Output/ProductFileRecordDecryptor/p/panasonic"
             << "fridge-4.png"
+            << "";
+
+    QTest::newRow("Product: Fri/dge 1, Ciarko/1")
+            << "E:/QtApps/SquareImages/TestData/Input/ProductFileRecordDecryptor"
+            << "E:/QtApps/SquareImages/TestData/Output/ProductFileRecordDecryptor"
+            << "Fri/dge 1;Ciarko/1"
+            << false
+            << "E:/QtApps/SquareImages/TestData/Input/ProductFileRecordDecryptor"
+            << "Fridge 1.jpeg"
+            << "E:/QtApps/SquareImages/TestData/Output/ProductFileRecordDecryptor/c/ciarko1"
+            << "fridge-1.jpeg"
+            << "";
+
+    QTest::newRow("Product: Fridge5, Ciarko/2")
+            << "E:/QtApps/SquareImages/TestData/Input/ProductFileRecordDecryptor"
+            << "E:/QtApps/SquareImages/TestData/Output/ProductFileRecordDecryptor"
+            << "Fridge5;Ciarko/2"
+            << false
+            << "E:/QtApps/SquareImages/TestData/Input/ProductFileRecordDecryptor"
+            << "Fridge5.png"
+            << "E:/QtApps/SquareImages/TestData/Output/ProductFileRecordDecryptor/c/ciarko2"
+            << "fridge5.png"
+            << "";
+
+    QTest::newRow("Product: Fridge 5, Ciarko/3")
+            << "E:/QtApps/SquareImages/TestData/Input/ProductFileRecordDecryptor"
+            << "E:/QtApps/SquareImages/TestData/Output/ProductFileRecordDecryptor"
+            << "Fridge 5;Ciarko/3"
+            << false
+            << "E:/QtApps/SquareImages/TestData/Input/ProductFileRecordDecryptor"
+            << "Fridge5.png"
+            << "E:/QtApps/SquareImages/TestData/Output/ProductFileRecordDecryptor/c/ciarko3"
+            << "fridge-5.png"
             << "";
 }
 

@@ -2,6 +2,7 @@
 
 #include <QDir>
 #include <QImageReader>
+#include <QImageWriter>
 
 ImagesConverter::ImagesConverter(ImageRecordsModel &imageRecordsModel, MainSettingsModel &mainSettingsModel, QObject *parent) : QThread(parent),
     _imageRecordsModel(imageRecordsModel),
@@ -58,7 +59,13 @@ void ImagesConverter::run() {
 
                     preparePath(fileRecord.outputFilePath);
 
-                    if(!outputImage.save(outputFile)) {
+                    QImageWriter writer(outputFile);
+
+                    if(writer.supportsOption(QImageIOHandler::Quality)) {
+                        writer.setQuality(_mainSettingsModel.getImageQuality());
+                    }
+
+                    if(!writer.write(outputImage)) {
                         fileRecord.setError(tr("Nie można zapisać pliku: <b>%0</b>.").arg(outputFile));
                     }
                 } else {

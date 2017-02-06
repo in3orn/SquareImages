@@ -119,19 +119,25 @@ void MidTextImageConverterTest::convert() {
     fileSettingsModel.setForcedFormat(forcedFormat);
 
     ConversionSettingsModel conversionSettingsModel;
-    conversionSettingsModel.setBackgroundColor("cornflowerblue");
+    conversionSettingsModel.setClearColor(true);
 
     MidTextImageConverter converter(conversionSettingsModel, fileSettingsModel);
 
     QImage image;
     image.load(sourcePath);
 
-    QImage newImage = converter.convert(image);
+    QImage newImage = converter.convert(image, FileRecord());
     newImage.save(outputPath);
 
     QSize newSize = newImage.size();
-    QColor newColor = newImage.pixelColor(QPoint());
+    QColor newColor = newImage.pixelColor(QPoint(newImage.width()-1, 0));
 
     QCOMPARE(newSize, size);
+
+    if(newColor != color) {
+        int i = 0;
+        int j = i++;
+    }
+
     QCOMPARE(newColor, color);
 }

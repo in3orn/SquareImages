@@ -2,19 +2,16 @@
 #define TEXTIMAGECONVERTER_H
 
 
-#include "imageconverter.h"
-
-#include "Model/conversionsettingsmodel.h"
-#include "Model/mainsettingsmodel.h"
+#include "scaleimageconverter.h"
 
 #include "painttextsettings.h"
 
-class TextImageConverter : public ImageConverter
+class TextImageConverter : public ScaleImageConverter
 {
 public:
     TextImageConverter(ConversionSettingsModel &conversionSettingsModel, MainSettingsModel &fileSettingsModel);
 
-    virtual QImage convert(const QImage &image, const FileRecord &fileRecord) Q_DECL_OVERRIDE;
+    virtual QImage convert(const QImage &source, const FileRecord &fileRecord) Q_DECL_OVERRIDE;
 
 protected:
     virtual QSize getTextRectSize(const QSize &size) const;
@@ -28,9 +25,6 @@ protected:
     virtual int getTextFontHeight(int rectHeight) const;
 
 protected:
-    ConversionSettingsModel &_conversionSettingsModel;
-    MainSettingsModel &_fileSettingsModel;
-
     PaintTextSettings _paintTextSettings;
 };
 

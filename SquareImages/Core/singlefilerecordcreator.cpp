@@ -28,7 +28,7 @@ void SingleFileRecordCreator::run() {
         fileRecord.inputFilePath = sourcePath;
         fileRecord.inputFileName = sourceFile;
         fileRecord.outputFilePath = _fileSettingsModel.getOutputPath();
-        fileRecord.outputFileName = StringUtils::normalize(fileRecord.inputFileName);
+        fileRecord.outputFileName = StringUtils::normalizeName(fileRecord.inputFileName);
 
         fileRecord = replaceFormat(fileRecord);
     } else {
