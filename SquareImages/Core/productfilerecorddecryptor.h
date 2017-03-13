@@ -14,7 +14,7 @@ public:
 protected:
     virtual FileRecord prepareFileRecord(const QStringList &fields) const Q_DECL_OVERRIDE;
 
-    virtual QString getOutputFileRecordExtension(const QStringList &fields) const;
+    virtual QString getOutputFileRecordExtension(const QStringList &fields) const Q_DECL_OVERRIDE;
 };
 
 #endif // PRODUCTFILERECORDDECRYPTOR_H

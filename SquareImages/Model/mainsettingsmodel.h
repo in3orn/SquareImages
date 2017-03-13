@@ -16,6 +16,7 @@ class MainSettingsModel : public QObject
 
     Q_PROPERTY(bool checkSubdirs READ isCheckSubdirs WRITE setCheckSubdirs NOTIFY checkSubdirsChanged)
     Q_PROPERTY(bool replaceExisting READ isReplaceExisting WRITE setReplaceExisting NOTIFY replaceExistingChanged)
+    Q_PROPERTY(bool normalizeNames READ isNormalizeNames WRITE setNormalizeNames NOTIFY normalizeNamesChanged)
 
     Q_PROPERTY(ForcedFormat forcedFormat READ getForcedFormat WRITE setForcedFormat NOTIFY forcedFormatChanged)
 
@@ -61,6 +62,7 @@ public:
 
     bool isCheckSubdirs() const;
     bool isReplaceExisting() const;
+    bool isNormalizeNames() const;
 
     ForcedFormat getForcedFormat() const;
     QString getForcedFormatExtension() const;
@@ -78,6 +80,7 @@ signals:
 
     void checkSubdirsChanged(bool checkSubdirs);
     void replaceExistingChanged(bool replaceExisting);
+    void normalizeNamesChanged(bool normalizeNames);
 
     void forcedFormatChanged(ForcedFormat forcedFormat);
     void forcedFormatChanged(int forcedFormat);
@@ -95,6 +98,7 @@ public slots:
 
     void setCheckSubdirs(bool checkSubdirs);
     void setReplaceExisting(bool replaceExisting);
+    void setNormalizeNames(bool normalizeNames);
 
     void setForcedFormat(ForcedFormat forcedFormat);
     void setForcedFormat(int forcedFormat);
@@ -111,6 +115,7 @@ private:
 
     bool _checkSubdirs;
     bool _replaceExisting;
+    bool _normalizeNames;
 
     ForcedFormat _forcedFormat;
 

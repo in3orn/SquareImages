@@ -116,6 +116,7 @@ void MainWindow::initMainSettingsController() {
 
     _mainSettingsController->connectCheckSubdirs(ui->checkSubdirs);
     _mainSettingsController->connectReplaceExisting(ui->replaceExisting);
+    _mainSettingsController->connectNormalizeNames(ui->normalizeNamesCheckBox);
 
     _mainSettingsController->connectOutputPathPushButton(ui->outputPathPushButton);
     _mainSettingsController->connectSourceFilePushButton(ui->sourceFilePushButton);

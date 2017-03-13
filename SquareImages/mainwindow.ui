@@ -172,6 +172,13 @@
            </property>
           </widget>
          </item>
+         <item row="15" column="1">
+          <widget class="QCheckBox" name="normalizeNamesCheckBox">
+           <property name="text">
+            <string>Popraw nazwy</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
       </item>

@@ -36,6 +36,7 @@ public:
 
     void connectCheckSubdirs(QCheckBox *widget);
     void connectReplaceExisting(QCheckBox *widget);
+    void connectNormalizeNames(QCheckBox *widget);
 
     void connectOutputPathPushButton(QPushButton *widget);
     void connectSourceFilePushButton(QPushButton *widget);
@@ -72,6 +73,7 @@ protected:
 
     void refreshCheckSubdirs();
     void refreshReplaceExisting();
+    void refreshNormalizeNames();
 
     void refreshForcedFormatComboBox();
 
@@ -91,6 +93,7 @@ protected:
 
     QCheckBox *_checkSubdirs;
     QCheckBox *_replaceExisting;
+    QCheckBox *_normalizeNames;
 
     QPushButton *_outputPathPushButton;
     QPushButton *_sourceFilePushButton;

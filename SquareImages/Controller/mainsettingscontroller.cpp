@@ -107,6 +107,15 @@ void MainSettingsController::connectReplaceExisting(QCheckBox *widget) {
     connect(_mainSettingsModel, &MainSettingsModel::replaceExistingChanged, widget, &QCheckBox::setChecked);
 }
 
+void MainSettingsController::connectNormalizeNames(QCheckBox *widget) {
+    _normalizeNames = widget;
+    _normalizeNames->setChecked(_mainSettingsModel->isNormalizeNames());
+    refreshNormalizeNames();
+
+    connect(widget, &QCheckBox::toggled, _mainSettingsModel, &MainSettingsModel::setNormalizeNames);
+    connect(_mainSettingsModel, &MainSettingsModel::normalizeNamesChanged, widget, &QCheckBox::setChecked);
+}
+
 void MainSettingsController::connectOutputPathPushButton(QPushButton *widget) {
     _outputPathPushButton = widget;
     refreshOutputPathPushButton();
@@ -244,6 +253,7 @@ void MainSettingsController::refreshWidgets() {
 
     refreshCheckSubdirs();
     refreshReplaceExisting();
+    refreshNormalizeNames();
 
     refreshForcedFormatComboBox();
 
@@ -311,6 +321,11 @@ void MainSettingsController::refreshCheckSubdirs() {
 
 void MainSettingsController::refreshReplaceExisting() {
     _replaceExisting->setEnabled(!_conversionModel->isRunning());
+}
+
+void MainSettingsController::refreshNormalizeNames() {
+    _normalizeNames->setEnabled(!_conversionModel->isRunning() &&
+                                 _mainSettingsModel->getConversionType() == MainSettingsModel::ConvertDirectoryImages);
 }
 
 void MainSettingsController::refreshForcedFormatComboBox() {

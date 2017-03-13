@@ -56,7 +56,7 @@ void DirectoryFileRecordsCreator::processFile(const QFileInfo &fileInfo) {
     fileRecord.inputFilePath = _fileSettingsModel.getSourcePath() + extPath;
     fileRecord.inputFileName = fileInfo.fileName();
     fileRecord.outputFilePath = _fileSettingsModel.getOutputPath() + extPath;
-    fileRecord.outputFileName = StringUtils::normalizeName(fileRecord.inputFileName);
+    fileRecord.outputFileName = _fileSettingsModel.isNormalizeNames() ? StringUtils::normalizeName(fileRecord.inputFileName) : fileRecord.inputFileName;
 
     fileRecord = replaceFormat(fileRecord);
 

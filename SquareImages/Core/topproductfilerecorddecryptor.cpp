@@ -16,7 +16,7 @@ FileRecord TopProductFileRecordDecryptor::prepareFileRecord(const QStringList &f
     {
         result.inputFilePath = StringUtils::removeFileName(_fileRecordSettingsModel.getSourceFile());
         result.inputFileName = StringUtils::getFileName(_fileRecordSettingsModel.getSourceFile());
-        result.outputFileName = StringUtils::normalizeName(result.inputFileName);
+        result.outputFileName = StringUtils::normalizeName(result.name) + "." + StringUtils::getFileExtension(result.inputFileName);
 
         result = replaceFormat(result);
     }
@@ -26,4 +26,8 @@ FileRecord TopProductFileRecordDecryptor::prepareFileRecord(const QStringList &f
 
 FileRecord TopProductFileRecordDecryptor::getVerifiedFileRecord(const FileRecord &fileRecord) const {
     return fileRecord;
+}
+
+QString TopProductFileRecordDecryptor::getOutputFileRecordExtension(const QStringList &fields) const {
+    return StringUtils::normalizePath(fields[1]);
 }

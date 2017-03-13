@@ -81,6 +81,10 @@ bool MainSettingsModel::isReplaceExisting() const {
     return _replaceExisting;
 }
 
+bool MainSettingsModel::isNormalizeNames() const {
+    return _normalizeNames;
+}
+
 MainSettingsModel::ForcedFormat MainSettingsModel::getForcedFormat() const {
     return _forcedFormat;
 }
@@ -155,6 +159,13 @@ void MainSettingsModel::setReplaceExisting(bool replaceExisting) {
     if(_replaceExisting != replaceExisting) {
         _replaceExisting = replaceExisting;
         emit replaceExistingChanged(_replaceExisting);
+    }
+}
+
+void MainSettingsModel::setNormalizeNames(bool normalizeNames) {
+    if(_normalizeNames != normalizeNames) {
+        _normalizeNames = normalizeNames;
+        emit normalizeNamesChanged(_normalizeNames);
     }
 }
 
